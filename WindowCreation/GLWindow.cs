@@ -6,9 +6,9 @@ using SemanticExtension;
 using System.Drawing;
 
 namespace WindowCreation;
-internal class Window : GameWindow
+internal class GLWindow : GameWindow
 {
-    public Window(string title, int width, int height, string? iconPath = null) :
+    public GLWindow(string title, int width, int height, string? iconPath = null) :
         base(
             GameWindowSettings.Default,
             new NativeWindowSettings()
@@ -19,9 +19,7 @@ internal class Window : GameWindow
                 Icon = iconPath?.Then(x => WindowExtension.CreateWindowIcon(x)),
             }
         )
-    {
-        this.Title = title;
-    }
+    {}
 
     protected override void OnRenderFrame(FrameEventArgs args)
     {
