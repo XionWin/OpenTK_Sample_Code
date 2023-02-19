@@ -15,8 +15,7 @@ internal class Window : GameWindow
             {
                 Title = title,
                 Size = new Vector2i(width, height),
-                API = ContextAPI.OpenGLES,
-                APIVersion = new Version(3, 2),
+                API = ContextAPI.OpenGL,
                 Icon = iconPath?.Then(x => WindowExtension.CreateWindowIcon(x)),
             }
         )
