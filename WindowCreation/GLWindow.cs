@@ -18,16 +18,18 @@ public class GLWindow : GameWindow
             {
                 Title = title,
                 Size = new Vector2i(width, height),
+                WindowBorder = WindowBorder.Fixed,
                 API = ContextAPI.OpenGL,
                 APIVersion = new Version(4, 5),
                 Icon = iconPath?.Then(x => WindowExtension.CreateWindowIcon(x)),
             }
         )
-    {}
+    {
+        this.Title = this.Title + $" | {this.API} {this.APIVersion.Major}.{this.APIVersion.Minor}";
+    }
 
     protected override void OnRenderFrame(FrameEventArgs args)
     {
-        var version = this.APIVersion;
         base.OnRenderFrame(args);
 
         GL.ClearColor(Color.MidnightBlue);
