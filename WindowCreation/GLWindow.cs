@@ -6,9 +6,12 @@ using SemanticExtension;
 using System.Drawing;
 
 namespace WindowCreation;
-internal class GLWindow : GameWindow
+public class GLWindow : GameWindow
 {
-    public GLWindow(string title, int width, int height, string? iconPath = null) :
+    public GLWindow() : this ("Window Creation", 720, 720, "Resources/Icon.png")
+    {}
+
+    private GLWindow(string title, int width, int height, string? iconPath = null) :
         base(
             GameWindowSettings.Default,
             new NativeWindowSettings()
@@ -16,6 +19,7 @@ internal class GLWindow : GameWindow
                 Title = title,
                 Size = new Vector2i(width, height),
                 API = ContextAPI.OpenGL,
+                APIVersion = new Version(4, 5),
                 Icon = iconPath?.Then(x => WindowExtension.CreateWindowIcon(x)),
             }
         )
@@ -23,6 +27,7 @@ internal class GLWindow : GameWindow
 
     protected override void OnRenderFrame(FrameEventArgs args)
     {
+        var version = this.APIVersion;
         base.OnRenderFrame(args);
 
         GL.ClearColor(Color.MidnightBlue);
