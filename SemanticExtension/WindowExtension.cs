@@ -4,7 +4,7 @@ using SixLabors.ImageSharp.PixelFormats;
 using SixLabors.ImageSharp;
 using System.Runtime.InteropServices;
 
-namespace WindowCreation;
+namespace Extension;
 public static class WindowExtension
 {
     public static WindowIcon CreateWindowIcon(string iconPath)
