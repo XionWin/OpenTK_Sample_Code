@@ -4,9 +4,9 @@ using OpenTK.Windowing.Common;
 using System.Drawing;
 
 namespace WindowCreation;
-public class GLWindow : Window
+public class Window : GLWindow
 {
-    public GLWindow() : base ("Window Creation")
+    public Window() : base ("Window Creation")
     {}
 
 

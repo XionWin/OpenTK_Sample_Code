@@ -24,6 +24,12 @@ public class Shader
         else
             throw new Exception($"Create shader failed");
     }
+
+
+    public void Use()
+    {
+        GL.UseProgram(ProgramHandle);
+    }
 }
 
 static class ShaderExtension
