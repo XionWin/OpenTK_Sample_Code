@@ -30,12 +30,12 @@ public class Window : GLWindow
         1, 2, 3   // BR -> BL -> TL
     };
 
-    private int _vertexBufferObject;
+    private int _vbo;
 
-    private int _vertexArrayObject;
+    private int _vao;
 
     // Add a handle for the EBO
-    private int _elementBufferObject;
+    private int _ebo;
 
     protected override void OnLoad()
     {
@@ -43,12 +43,14 @@ public class Window : GLWindow
 
         GL.ClearColor(Color.MidnightBlue);
 
-        _vertexBufferObject = GL.GenBuffer();
-        GL.BindBuffer(BufferTarget.ArrayBuffer, _vertexBufferObject);
+        _vbo = GL.GenBuffer();
+        _vao = GL.GenVertexArray();
+        _ebo = GL.GenBuffer();
+
+        GL.BindBuffer(BufferTarget.ArrayBuffer, _vbo);
         GL.BufferData(BufferTarget.ArrayBuffer, _vertices.Length * sizeof(float), _vertices, BufferUsageHint.StaticDraw);
 
-        _vertexArrayObject = GL.GenVertexArray();
-        GL.BindVertexArray(_vertexArrayObject);
+        GL.BindVertexArray(_vao);
         GL.VertexAttribPointer(0, 3, VertexAttribPointerType.Float, false, 3 * sizeof(float), 0);
         GL.EnableVertexAttribArray(0);
 
@@ -58,8 +60,7 @@ public class Window : GLWindow
         // This also means that if you bind another VAO, the current ElementArrayBuffer is going to change with it.
         // Another sneaky part is that you don't need to unbind the buffer in ElementArrayBuffer as unbinding the VAO is going to do this,
         // and unbinding the EBO will remove it from the VAO instead of unbinding it like you would for VBOs or VAOs.
-        _elementBufferObject = GL.GenBuffer();
-        GL.BindBuffer(BufferTarget.ElementArrayBuffer, _elementBufferObject);
+        GL.BindBuffer(BufferTarget.ElementArrayBuffer, _ebo);
         // We also upload data to the EBO the same way as we did with VBOs.
         GL.BufferData(BufferTarget.ElementArrayBuffer, _indices.Length * sizeof(uint), _indices, BufferUsageHint.StaticDraw);
         // The EBO has now been properly setup. Go to the Render function to see how we draw our rectangle now!
@@ -78,7 +79,7 @@ public class Window : GLWindow
         this.Shader.Use();
 
         // Bind the VAO
-        GL.BindVertexArray(_vertexArrayObject);
+        GL.BindVertexArray(_vao);
 
         // And then call our drawing function.
         // For this tutorial, we'll use GL.DrawArrays, which is a very simple rendering function.
@@ -120,8 +121,8 @@ public class Window : GLWindow
         GL.UseProgram(0);
 
         // Delete all the resources.
-        GL.DeleteBuffer(_vertexBufferObject);
-        GL.DeleteVertexArray(_vertexArrayObject);
+        GL.DeleteBuffer(_vbo);
+        GL.DeleteVertexArray(_vao);
 
         GL.DeleteProgram(Shader.ProgramHandle);
 
