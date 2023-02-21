@@ -5,9 +5,9 @@ internal class Program
     {
 
         // To create a new window, create a class that extends GameWindow, then call Run() on it.
-        using (var window = new HelloTriangle.Window())
+        using (var window = new ColorTriangle.Window())
         {
-            window.Run();
+            window.Run(); 
         }
     }
 }

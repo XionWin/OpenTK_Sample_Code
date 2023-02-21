@@ -10,6 +10,7 @@
   <ItemGroup>
     <ProjectReference Include="..\WindowCreation\WindowCreation.csproj" />
 	  <ProjectReference Include="..\HelloTriangle\HelloTriangle.csproj" />
+	  <ProjectReference Include="..\ColorTriangle\ColorTriangle.csproj" />
   </ItemGroup>
 
 </Project>
