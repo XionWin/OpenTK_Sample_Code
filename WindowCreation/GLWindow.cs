@@ -25,7 +25,3 @@ public class Window : GLWindow
         base.OnUpdateFrame(args);
     }
 }
-
-
-
-
