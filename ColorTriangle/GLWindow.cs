@@ -17,9 +17,9 @@ public class Window : GLWindow
         0.0f,  0.5f, 0.0f  // Top vertex
     };
 
-    private int _vertexBufferObject;
+    private int _vbo;
 
-    private int _vertexArrayObject;
+    private int _vao;
 
     protected override void OnLoad()
     {
@@ -27,21 +27,20 @@ public class Window : GLWindow
 
         GL.ClearColor(Color.MidnightBlue);
 
-
         // We need to send our vertices over to the graphics card so OpenGL can use them.
         // To do this, we need to create what's called a Vertex Buffer Object (VBO).
         // These allow you to upload a bunch of data to a buffer, and send the buffer to the graphics card.
         // This effectively sends all the vertices at the same time.
 
         // First, we need to create a buffer. This function returns a handle to it, but as of right now, it's empty.
-        _vertexBufferObject = GL.GenBuffer();
+        _vbo = GL.GenBuffer();
 
         // Now, bind the buffer. OpenGL uses one global state, so after calling this,
         // all future calls that modify the VBO will be applied to this buffer until another buffer is bound instead.
         // The first argument is an enum, specifying what type of buffer we're binding. A VBO is an ArrayBuffer.
         // There are multiple types of buffers, but for now, only the VBO is necessary.
         // The second argument is the handle to our buffer.
-        GL.BindBuffer(BufferTarget.ArrayBuffer, _vertexBufferObject);
+        GL.BindBuffer(BufferTarget.ArrayBuffer, _vbo);
 
         // Finally, upload the vertices to the buffer.
         // Arguments:
@@ -62,8 +61,8 @@ public class Window : GLWindow
         // Vertex Array Obejct (VAO) which has the job of keeping track of what parts or what buffers correspond to what data. In this example we want to set our VAO up so that 
         // it tells opengl that we want to interpret 12 bytes as 3 floats and divide the buffer into vertices using that.
         // To do this we generate and bind a VAO (which looks deceptivly similar to creating and binding a VBO, but they are different!).
-        _vertexArrayObject = GL.GenVertexArray();
-        GL.BindVertexArray(_vertexArrayObject);
+        _vao = GL.GenVertexArray();
+        GL.BindVertexArray(_vao);
 
         // Now, we need to setup how the vertex shader will interpret the VBO data; you can send almost any C datatype (and a few non-C ones too) to it.
         // While this makes them incredibly flexible, it means we have to specify how that data will be mapped to the shader's input variables.
@@ -97,7 +96,7 @@ public class Window : GLWindow
         this.Shader.Use();
 
         // Bind the VAO
-        GL.BindVertexArray(_vertexArrayObject);
+        GL.BindVertexArray(_vao);
 
         // And then call our drawing function.
         // For this tutorial, we'll use GL.DrawArrays, which is a very simple rendering function.
@@ -139,8 +138,8 @@ public class Window : GLWindow
         GL.UseProgram(0);
 
         // Delete all the resources.
-        GL.DeleteBuffer(_vertexBufferObject);
-        GL.DeleteVertexArray(_vertexArrayObject);
+        GL.DeleteBuffer(_vbo);
+        GL.DeleteVertexArray(_vao);
 
         GL.DeleteProgram(Shader.ProgramHandle);
 
