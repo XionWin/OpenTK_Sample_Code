@@ -15,7 +15,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common", "Common\Common.csp
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ColorTriangle", "ColorTriangle\ColorTriangle.csproj", "{C45707AC-7BDD-4339-9417-A509436D928F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ElementBuffer", "ElementBuffer\ElementBuffer.csproj", "{4E30ACA7-E5CE-4F37-B652-6726FE02A5E4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ElementBuffer", "ElementBuffer\ElementBuffer.csproj", "{4E30ACA7-E5CE-4F37-B652-6726FE02A5E4}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shaders", "Shaders\Shaders.csproj", "{67C9268E-ABE0-41BA-A841-4B4C59918E2B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,6 +53,10 @@ Global
 		{4E30ACA7-E5CE-4F37-B652-6726FE02A5E4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4E30ACA7-E5CE-4F37-B652-6726FE02A5E4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4E30ACA7-E5CE-4F37-B652-6726FE02A5E4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{67C9268E-ABE0-41BA-A841-4B4C59918E2B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{67C9268E-ABE0-41BA-A841-4B4C59918E2B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{67C9268E-ABE0-41BA-A841-4B4C59918E2B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{67C9268E-ABE0-41BA-A841-4B4C59918E2B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

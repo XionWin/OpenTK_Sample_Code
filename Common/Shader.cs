@@ -55,7 +55,6 @@ static class ShaderExtension
 
     public static void LinkProgram(this Shader shader, int vertexShader, int fragmentShader)
     {
-
         // Attach both shaders...
         GL.AttachShader(shader.ProgramHandle, vertexShader);
         GL.AttachShader(shader.ProgramHandle, fragmentShader);
@@ -81,7 +80,6 @@ static class ShaderExtension
 
         // First, we have to get the number of active uniforms in the shader.
         GL.GetProgram(shader.ProgramHandle, GetProgramParameterName.ActiveUniforms, out var numberOfUniforms);
-
 
         // Loop over all the uniforms,
         for (var i = 0; i < numberOfUniforms; i++)
