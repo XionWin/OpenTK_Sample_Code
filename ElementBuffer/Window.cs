@@ -4,10 +4,10 @@ using OpenTK.Windowing.Common;
 using OpenTK.Windowing.GraphicsLibraryFramework;
 using System.Drawing;
 
-namespace Shaders;
+namespace ElementBuffer;
 public class Window : GLWindow
 {
-    public Window() : base("Shaders")
+    public Window() : base("Element Buffer")
     { }
 
     private readonly float[] _vertices =
@@ -54,12 +54,16 @@ public class Window : GLWindow
         GL.VertexAttribPointer(0, 3, VertexAttribPointerType.Float, false, 3 * sizeof(float), 0);
         GL.EnableVertexAttribArray(0);
 
+        // We create/bind the Element Buffer Object EBO the same way as the VBO, except there is a major difference here which can be REALLY confusing.
+        // The binding spot for ElementArrayBuffer is not actually a global binding spot like ArrayBuffer is. 
+        // Instead it's actually a property of the currently bound VertexArrayObject, and binding an EBO with no VAO is undefined behaviour.
+        // This also means that if you bind another VAO, the current ElementArrayBuffer is going to change with it.
+        // Another sneaky part is that you don't need to unbind the buffer in ElementArrayBuffer as unbinding the VAO is going to do this,
+        // and unbinding the EBO will remove it from the VAO instead of unbinding it like you would for VBOs or VAOs.
         GL.BindBuffer(BufferTarget.ElementArrayBuffer, _ebo);
+        // We also upload data to the EBO the same way as we did with VBOs.
         GL.BufferData(BufferTarget.ElementArrayBuffer, _indices.Length * sizeof(uint), _indices, BufferUsageHint.StaticDraw);
-        
-        GL.GetInteger(GetPName.MaxVertexAttribs, out var maxVertexAttributeCount);
-        System.Diagnostics.Debug.WriteLine($"Maximum number of vertex attributes supported: {maxVertexAttributeCount}");
-
+        // The EBO has now been properly setup. Go to the Render function to see how we draw our rectangle now!
 
         this.Shader.Use();
     }

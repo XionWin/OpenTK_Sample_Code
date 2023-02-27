@@ -2,6 +2,7 @@
 using OpenTK.Compute.OpenCL;
 using OpenTK.Graphics.OpenGL4;
 using System.Reflection.Metadata;
+using static Extension.SemanticExtension;
 
 namespace Common;
 
@@ -24,7 +25,6 @@ public class Shader
         else
             throw new Exception($"Create shader failed");
     }
-
 
     public void Use()
     {
@@ -92,6 +92,7 @@ static class ShaderExtension
 
             // and then add it to the dictionary.
             shader.UniformLocations.Add(key, location);
+
         }
     }
 
@@ -104,7 +105,4 @@ static class ShaderExtension
         GL.GetProgram(program, GetProgramParameterName.LinkStatus, out var code);
         return code;
     }
-
-
-
 }

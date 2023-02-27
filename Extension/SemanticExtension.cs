@@ -1,4 +1,6 @@
-﻿namespace Extension;
+﻿using static System.Runtime.InteropServices.JavaScript.JSType;
+
+namespace Extension;
 public static class SemanticExtension
 {
     public static T With<T>(this T source, Action<T> action)
