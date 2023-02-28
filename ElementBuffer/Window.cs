@@ -64,8 +64,6 @@ public class Window : GLWindow
         // We also upload data to the EBO the same way as we did with VBOs.
         GL.BufferData(BufferTarget.ElementArrayBuffer, _indices.Length * sizeof(uint), _indices, BufferUsageHint.StaticDraw);
         // The EBO has now been properly setup. Go to the Render function to see how we draw our rectangle now!
-
-        this.Shader.Use();
     }
 
     protected override void OnRenderFrame(FrameEventArgs args)
@@ -73,9 +71,6 @@ public class Window : GLWindow
         base.OnRenderFrame(args);
 
         GL.Clear(ClearBufferMask.ColorBufferBit);
-
-
-        this.Shader.Use();
 
         // Bind the VAO
         GL.BindVertexArray(_vao);

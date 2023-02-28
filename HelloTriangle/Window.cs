@@ -83,8 +83,6 @@ public class Window : GLWindow
 
         // Enable variable 0 in the shader.
         GL.EnableVertexAttribArray(0);
-
-        this.Shader.Use();
     }
 
     protected override void OnRenderFrame(FrameEventArgs args)
@@ -92,9 +90,6 @@ public class Window : GLWindow
         base.OnRenderFrame(args);
 
         GL.Clear(ClearBufferMask.ColorBufferBit);
-
-
-        this.Shader.Use();
 
         // Bind the VAO
         GL.BindVertexArray(_vao);

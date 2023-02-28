@@ -14,14 +14,16 @@ public class Window : GLWindow
     private readonly float[] _vertices =
     {
              // positions        // colors
-             0.5f, -0.5f, 0.0f,  1.0f, 0.0f, 0.0f,   // bottom right
-            -0.5f, -0.5f, 0.0f,  0.0f, 1.0f, 0.0f,   // bottom left
-             0.0f,  0.5f, 0.0f,  0.0f, 0.0f, 1.0f    // top 
+             360f, 200f,        1.0f, 0.0f, 0.0f,   // bottom right
+             560f, 600f,      0.0f, 1.0f, 0.0f,   // bottom left
+             160f, 600f,    0.0f, 0.0f, 1.0f    // top 
         };
 
     private int _vbo;
 
     private int _vao;
+
+    private int _vp;
 
     protected override void OnLoad()
     {
@@ -38,14 +40,14 @@ public class Window : GLWindow
 
         // bind vao and set data for vao[0]
         GL.BindVertexArray(_vao);
-        GL.VertexAttribPointer(0, 3, VertexAttribPointerType.Float, false, 6 * sizeof(float), 0);
+        GL.VertexAttribPointer(0, 2, VertexAttribPointerType.Float, false, 5 * sizeof(float), 0);
         GL.EnableVertexAttribArray(0);
 
         // We create a new pointer for the color values.
         // Much like the previous pointer, we assign 6 in the stride value.
         // We also need to correctly set the offset to get the color values.
         // The color data starts after the position data, so the offset is the size of 3 floats.
-        GL.VertexAttribPointer(1, 3, VertexAttribPointerType.Float, false, 6 * sizeof(float), 3 * sizeof(float));
+        GL.VertexAttribPointer(1, 3, VertexAttribPointerType.Float, false, 5 * sizeof(float), 2 * sizeof(float));
         // We then enable color attribute (location=1) so it is available to the shader.
         GL.EnableVertexAttribArray(1);
 
@@ -56,7 +58,7 @@ public class Window : GLWindow
         GL.GetInteger(GetPName.MaxVertexAttribs, out int maxAttributeCount);
         Debug.WriteLine($"Maximum number of vertex attributes supported: {maxAttributeCount}");
 
-        this.Shader.Use();
+        this._vp = GL.GetUniformLocation(this.Shader.ProgramHandle, "aViewport");
     }
 
     protected override void OnRenderFrame(FrameEventArgs args)
@@ -64,9 +66,6 @@ public class Window : GLWindow
         base.OnRenderFrame(args);
 
         GL.Clear(ClearBufferMask.ColorBufferBit);
-
-
-        this.Shader.Use();
 
         // Bind the VAO
         GL.BindVertexArray(_vao);
@@ -93,6 +92,7 @@ public class Window : GLWindow
         // When the window gets resized, we have to call GL.Viewport to resize OpenGL's viewport to match the new size.
         // If we don't, the NDC will no longer be correct.
         GL.Viewport(0, 0, Size.X, Size.Y);
+        GL.Uniform3(this._vp, this.Size.X, this.Size.Y, 1.0f);
     }
 
     protected override void OnUnload()

@@ -29,4 +29,10 @@ public class GLWindow : GameWindow
         this.Title = this.Title + $" | {this.API} {this.APIVersion.Major}.{this.APIVersion.Minor}";
         this.Shader = new Shader("Shaders/shader.vert", "Shaders/shader.frag");
     }
+
+    protected override void OnLoad()
+    {
+        base.OnLoad();
+        this.Shader.Use();
+    }
 }
