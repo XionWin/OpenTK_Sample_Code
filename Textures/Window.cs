@@ -5,23 +5,32 @@ using OpenTK.Windowing.GraphicsLibraryFramework;
 using System.Diagnostics;
 using System.Drawing;
 
-namespace Shaders;
+namespace Textures;
 public class Window : GLWindow
 {
-    public Window() : base("Shaders")
+    public Window() : base("Textures")
     { }
 
     private readonly float[] _vertices =
     {
-        // positions        // colors
-        360f, 200f,        1.0f, 0.0f, 0.0f,   // bottom right
-        560f, 600f,      0.0f, 1.0f, 0.0f,   // bottom left
-        160f, 600f,    0.0f, 0.0f, 1.0f    // top 
+        // positions        Texture coordinates
+        620f, 100f,         0.0f, 1.0f, 1.0f, // top right
+        620f, 620f,         0.0f, 1.0f, 0.0f, // bottom right
+        100f, 620f,         0.0f, 0.0f, 0.0f, // bottom left
+        100f, 100f,         0.0f, 0.0f, 1.0f  // top left
+    };
+
+    private readonly uint[] _indices =
+    {
+        0, 1, 3,
+        1, 2, 3
     };
 
     private int _vbo;
 
     private int _vao;
+
+    private int _ebo;
 
     private int _uniformViewPort;
 
@@ -33,13 +42,19 @@ public class Window : GLWindow
 
         _vbo = GL.GenBuffer();
         _vao = GL.GenVertexArray();
+        _ebo = GL.GenBuffer();
+
+        GL.BindVertexArray(_vao);
 
         // bind vbo and set data for vbo
         GL.BindBuffer(BufferTarget.ArrayBuffer, _vbo);
         GL.BufferData(BufferTarget.ArrayBuffer, _vertices.Length * sizeof(float), _vertices, BufferUsageHint.StaticDraw);
 
+        // bind ebo and set data for ebo
+        GL.BindBuffer(BufferTarget.ElementArrayBuffer, _ebo);
+        GL.BufferData(BufferTarget.ElementArrayBuffer, _indices.Length * sizeof(uint), _indices, BufferUsageHint.StaticDraw);
+
         // bind vao and set data for vao[0]
-        GL.BindVertexArray(_vao);
         GL.VertexAttribPointer(0, 2, VertexAttribPointerType.Float, false, 5 * sizeof(float), 0);
         GL.EnableVertexAttribArray(0);
 
@@ -70,7 +85,7 @@ public class Window : GLWindow
         // Bind the VAO
         GL.BindVertexArray(_vao);
 
-        GL.DrawArrays(PrimitiveType.Triangles, 0, 3);
+        GL.DrawElements(PrimitiveType.Triangles, _indices.Length, DrawElementsType.UnsignedInt, 0);
 
         SwapBuffers();
     }

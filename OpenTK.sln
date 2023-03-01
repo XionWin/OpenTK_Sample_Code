@@ -19,6 +19,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ElementBuffer", "ElementBuf
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shaders", "Shaders\Shaders.csproj", "{67C9268E-ABE0-41BA-A841-4B4C59918E2B}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Textures", "Textures\Textures.csproj", "{775B88FA-C6A7-44A3-B776-071686C87388}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -57,6 +59,10 @@ Global
 		{67C9268E-ABE0-41BA-A841-4B4C59918E2B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{67C9268E-ABE0-41BA-A841-4B4C59918E2B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{67C9268E-ABE0-41BA-A841-4B4C59918E2B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{775B88FA-C6A7-44A3-B776-071686C87388}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{775B88FA-C6A7-44A3-B776-071686C87388}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{775B88FA-C6A7-44A3-B776-071686C87388}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{775B88FA-C6A7-44A3-B776-071686C87388}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

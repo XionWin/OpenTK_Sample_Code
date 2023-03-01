@@ -13,6 +13,7 @@
 	  <ProjectReference Include="..\ColorTriangle\ColorTriangle.csproj" />
 	  <ProjectReference Include="..\ElementBuffer\ElementBuffer.csproj" />
 	  <ProjectReference Include="..\Shaders\Shaders.csproj" />
+	  <ProjectReference Include="..\Textures\Textures.csproj" />
   </ItemGroup>
 
 </Project>
