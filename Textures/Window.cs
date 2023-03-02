@@ -32,7 +32,7 @@ public class Window : GLWindow
 
     private int _ebo;
 
-    private Texture _texture;
+    private Texture? _texture;
 
     private int _uniformViewPort;
 
@@ -85,7 +85,7 @@ public class Window : GLWindow
 
         // Bind the VAO
         GL.BindVertexArray(_vao);
-        _texture.Use(TextureUnit.Texture0);
+        _texture!.Use(TextureUnit.Texture0);
 
 
         GL.DrawElements(PrimitiveType.Triangles, _indices.Length, DrawElementsType.UnsignedInt, 0);
