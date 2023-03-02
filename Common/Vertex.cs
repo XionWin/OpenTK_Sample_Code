@@ -1,20 +1,42 @@
-﻿using Extension;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Numerics;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Numerics;
 
 namespace Common
 {
+    public struct MemoryMapping
+    {
+        public string Name { get; set; }
+        public int Length { get; set; }
+
+        public MemoryMapping(string name, int len)
+        {
+            this.Name = name;
+            this.Length = len;
+        }
+    }
+
     public struct Vertex2
     {
+        public readonly static IEnumerable<MemoryMapping> r = new[]
+        {
+            new MemoryMapping("aPosition", 2),
+            new MemoryMapping("aTexCoord", 2),
+        };
+
         public Vector2 Position { get; init; }
         public Vector2 Coordinate { get; init; }
 
         private float[]? raw = null;
-        public float[] Raw => this.GetRaw();
+        public float[] Raw
+        {
+            get
+            {
+                if (raw is null)
+                {
+                    raw = this.GetRaw();
+                }
+                return raw;
+            }
+        }
 
         public Vertex2(Vector2 position, Vector2 coordinate)
         {
