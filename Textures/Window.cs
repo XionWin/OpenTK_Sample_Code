@@ -14,10 +14,10 @@ public class Window : GLWindow
     private readonly float[] _vertices =
     {
         // positions        Texture coordinates
-        620f, 100f,         0.0f, 1.0f, 1.0f, // top right
-        620f, 620f,         0.0f, 1.0f, 0.0f, // bottom right
-        100f, 620f,         0.0f, 0.0f, 0.0f, // bottom left
-        100f, 100f,         0.0f, 0.0f, 1.0f  // top left
+        620f, 100f,         0.0f, 1.0f, 0.0f, // top right
+        620f, 620f,         0.0f, 1.0f, 1.0f, // bottom right
+        100f, 620f,         0.0f, 0.0f, 1.0f, // bottom left
+        100f, 100f,         0.0f, 0.0f, 0.0f  // top left
     };
 
     private readonly uint[] _indices =
@@ -31,6 +31,8 @@ public class Window : GLWindow
     private int _vao;
 
     private int _ebo;
+
+    private Texture _texture;
 
     private int _uniformViewPort;
 
@@ -54,26 +56,25 @@ public class Window : GLWindow
         GL.BindBuffer(BufferTarget.ElementArrayBuffer, _ebo);
         GL.BufferData(BufferTarget.ElementArrayBuffer, _indices.Length * sizeof(uint), _indices, BufferUsageHint.StaticDraw);
 
-        // bind vao and set data for vao[0]
-        GL.VertexAttribPointer(0, 2, VertexAttribPointerType.Float, false, 5 * sizeof(float), 0);
-        GL.EnableVertexAttribArray(0);
+        // Because there's now 5 floats between the start of the first vertex and the start of the second,
+        // we modify the stride from 3 * sizeof(float) to 5 * sizeof(float).
+        // This will now pass the new vertex array to the buffer.
+        var vertexLocation = this.Shader.GetAttribLocation("aPosition");
+        GL.EnableVertexAttribArray(vertexLocation);
+        GL.VertexAttribPointer(vertexLocation, 3, VertexAttribPointerType.Float, false, 5 * sizeof(float), 0);
 
-        // We create a new pointer for the color values.
-        // Much like the previous pointer, we assign 6 in the stride value.
-        // We also need to correctly set the offset to get the color values.
-        // The color data starts after the position data, so the offset is the size of 3 floats.
-        GL.VertexAttribPointer(1, 3, VertexAttribPointerType.Float, false, 5 * sizeof(float), 2 * sizeof(float));
-        // We then enable color attribute (location=1) so it is available to the shader.
-        GL.EnableVertexAttribArray(1);
+        // Next, we also setup texture coordinates. It works in much the same way.
+        // We add an offset of 3, since the texture coordinates comes after the position data.
+        // We also change the amount of data to 2 because there's only 2 floats for texture coordinates.
+        var texCoordLocation = this.Shader.GetAttribLocation("aTexCoord");
+        GL.EnableVertexAttribArray(texCoordLocation);
+        GL.VertexAttribPointer(texCoordLocation, 2, VertexAttribPointerType.Float, false, 5 * sizeof(float), 3 * sizeof(float));
 
-        // Vertex attributes are the data we send as input into the vertex shader from the main program.
-        // So here we're checking to see how many vertex attributes our hardware can handle.
-        // OpenGL at minimum supports 16 vertex attributes. This only needs to be called 
-        // when your intensive attribute work and need to know exactly how many are available to you.
-        GL.GetInteger(GetPName.MaxVertexAttribs, out int maxAttributeCount);
-        Debug.WriteLine($"Maximum number of vertex attributes supported: {maxAttributeCount}");
+        _texture = Texture.Load("Resources/container.png");
+        _texture.Use(TextureUnit.Texture0);
 
         this._uniformViewPort = GL.GetUniformLocation(this.Shader.ProgramHandle, "aViewport");
+
     }
 
     protected override void OnRenderFrame(FrameEventArgs args)
@@ -84,6 +85,8 @@ public class Window : GLWindow
 
         // Bind the VAO
         GL.BindVertexArray(_vao);
+        _texture.Use(TextureUnit.Texture0);
+
 
         GL.DrawElements(PrimitiveType.Triangles, _indices.Length, DrawElementsType.UnsignedInt, 0);
 

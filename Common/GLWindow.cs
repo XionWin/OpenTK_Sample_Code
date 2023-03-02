@@ -21,7 +21,7 @@ public class GLWindow : GameWindow
                 //WindowBorder = WindowBorder.Fixed,
                 API = ContextAPI.OpenGL,
                 APIVersion = new Version(4, 5),
-                Icon = iconPath?.Then(x => WindowExtension.CreateWindowIcon(x)),
+                Icon = iconPath?.Then(x => ImageExtension.CreateWindowIcon(x)),
             }
         )
     {

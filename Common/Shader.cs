@@ -30,6 +30,11 @@ public class Shader
     {
         GL.UseProgram(ProgramHandle);
     }
+
+    public int GetAttribLocation(string attribName)
+    {
+        return GL.GetAttribLocation(ProgramHandle, attribName);
+    }
 }
 
 static class ShaderExtension
