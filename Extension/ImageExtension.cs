@@ -8,8 +8,8 @@ public static class ImageExtension
 {
     public static ImageData GetImageData(string iconPath)
     {
-        using var image = (Image<Rgba32>)SixLabors.ImageSharp.Image.Load(Configuration.Default, iconPath);
-        return image.GetPixelData() is var pixelSpan &&
+        using var image = SixLabors.ImageSharp.Image.Load(Configuration.Default, iconPath);
+        return image.CloneAs<Rgba32>().GetPixelData() is var pixelSpan &&
         MemoryMarshal.AsBytes(pixelSpan).ToArray() is byte[] imageBytes ?
         new ImageData(image.Width, image.Height, imageBytes) :
         throw new Exception("GetImageData error");

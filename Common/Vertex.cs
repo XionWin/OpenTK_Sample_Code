@@ -2,24 +2,26 @@
 
 namespace Common
 {
-    public struct MemoryMapping
+    public struct AttribLocation
     {
         public string Name { get; set; }
+        public int Start { get; set; }
         public int Length { get; set; }
 
-        public MemoryMapping(string name, int len)
+        public AttribLocation(string name, int start, int len)
         {
             this.Name = name;
+            this.Start = start;
             this.Length = len;
         }
     }
 
     public struct Vertex2
     {
-        public readonly static IEnumerable<MemoryMapping> r = new[]
+        public readonly static IEnumerable<AttribLocation> AttribLocations = new[]
         {
-            new MemoryMapping("aPosition", 2),
-            new MemoryMapping("aTexCoord", 2),
+            new AttribLocation("aPosition", 0, 2),
+            new AttribLocation("aTexCoord", 2, 2),
         };
 
         public Vector2 Position { get; init; }

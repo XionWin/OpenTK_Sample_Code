@@ -57,19 +57,7 @@ public class Window : GLWindow
         GL.BindBuffer(BufferTarget.ElementArrayBuffer, _ebo);
         GL.BufferData(BufferTarget.ElementArrayBuffer, _indices.Length * sizeof(uint), _indices, BufferUsageHint.StaticDraw);
 
-        // Because there's now 5 floats between the start of the first vertex and the start of the second,
-        // we modify the stride from 3 * sizeof(float) to 5 * sizeof(float).
-        // This will now pass the new vertex array to the buffer.
-        var vertexLocation = this.Shader.GetAttribLocation("aPosition");
-        GL.EnableVertexAttribArray(vertexLocation);
-        GL.VertexAttribPointer(vertexLocation, 2, VertexAttribPointerType.Float, false, 4 * sizeof(float), 0);
-
-        // Next, we also setup texture coordinates. It works in much the same way.
-        // We add an offset of 3, since the texture coordinates comes after the position data.
-        // We also change the amount of data to 2 because there's only 2 floats for texture coordinates.
-        var texCoordLocation = this.Shader.GetAttribLocation("aTexCoord");
-        GL.EnableVertexAttribArray(texCoordLocation);
-        GL.VertexAttribPointer(texCoordLocation, 2, VertexAttribPointerType.Float, false, 4 * sizeof(float), 2 * sizeof(float));
+        this.Shader.EnableAttribs(Vertex2.AttribLocations);
 
         _texture = Texture.Load("Resources/container.png");
         _texture.Use(TextureUnit.Texture0);
@@ -85,7 +73,10 @@ public class Window : GLWindow
 
         // Bind the VAO
         GL.BindVertexArray(_vao);
-        _texture!.Use(TextureUnit.Texture0);
+
+        // Enable Alpha
+        GL.Enable(EnableCap.Blend);
+        GL.BlendFunc(BlendingFactor.SrcAlpha, BlendingFactor.OneMinusSrcAlpha);
 
         GL.DrawElements(PrimitiveType.Triangles, _indices.Length, DrawElementsType.UnsignedInt, 0);
 

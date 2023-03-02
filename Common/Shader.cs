@@ -2,7 +2,9 @@
 using OpenTK.Compute.OpenCL;
 using OpenTK.Graphics.OpenGL4;
 using System.Reflection.Metadata;
+using System.Runtime.CompilerServices;
 using static Extension.SemanticExtension;
+using System.Linq;
 
 namespace Common;
 
@@ -35,10 +37,24 @@ public class Shader
     {
         return GL.GetAttribLocation(ProgramHandle, attribName);
     }
+
+    public void EnableAttribs(IEnumerable<AttribLocation> attribLocations) => this.EnableAttribLocations(attribLocations);
 }
 
 static class ShaderExtension
 {
+    public static void EnableAttribLocations(this Shader shader, IEnumerable<AttribLocation> attribLocations)
+    {
+        var totalLen = attribLocations.Sum(x => x.Length);
+        foreach (var attribLocation in attribLocations)
+        {
+
+            var texCoordLocation = shader.GetAttribLocation(attribLocation.Name);
+            GL.EnableVertexAttribArray(texCoordLocation);
+            GL.VertexAttribPointer(texCoordLocation, attribLocation.Length, VertexAttribPointerType.Float, false, totalLen * sizeof(float), attribLocation.Start * sizeof(float));
+        }
+    }
+
     public static int CompileShader(this string shaderSource, ShaderType shaderType) =>
         GL.CreateShader(shaderType) is var shader
         && shaderSource
@@ -111,3 +127,4 @@ static class ShaderExtension
         return code;
     }
 }
+
