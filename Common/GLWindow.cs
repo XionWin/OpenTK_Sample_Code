@@ -13,7 +13,11 @@ public class GLWindow : GameWindow
 
     private GLWindow(string title, int width, int height, string? iconPath = null) :
         base(
-            GameWindowSettings.Default,
+            new GameWindowSettings()
+            {
+                UpdateFrequency = 30,
+                RenderFrequency = 60
+            },
             new NativeWindowSettings()
             {
                 Title = title,
@@ -21,7 +25,7 @@ public class GLWindow : GameWindow
                 //WindowBorder = WindowBorder.Fixed,
                 API = ContextAPI.OpenGL,
                 APIVersion = new Version(4, 5),
-                Icon = iconPath?.Then(x => ImageExtension.CreateWindowIcon(x)),
+                Icon = iconPath?.Then(x => ImageExtension.CreateWindowIcon(x))
             }
         )
     {
