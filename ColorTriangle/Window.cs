@@ -7,7 +7,7 @@ using System.Drawing;
 namespace ColorTriangle;
 public class Window : GLWindow
 {
-    public Window() : base ("Color Triangle")
+    public Window() : base ("ColorTriangle")
     {}
 
     private readonly float[] _vertices =

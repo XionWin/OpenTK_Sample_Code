@@ -16,13 +16,10 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<None Update="Resources\container.png">
-		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
-		<None Update="Shaders\Textures.frag">
+		<None Update="Shaders\shader.frag">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
-		<None Update="Shaders\Textures.vert">
+		<None Update="Shaders\shader.vert">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
 	</ItemGroup>

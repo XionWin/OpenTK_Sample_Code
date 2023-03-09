@@ -31,7 +31,7 @@ public class GLWindow : GameWindow
     {
         this.CenterWindow();
         this.Title = this.Title + $" | {this.API} {this.APIVersion.Major}.{this.APIVersion.Minor}";
-        this.Shader = new Shader("Shaders/shader.vert", "Shaders/shader.frag");
+        this.Shader = new Shader($"Shaders/{title}.vert", $"Shaders/{title}.frag");
     }
 
     protected override void OnLoad()

@@ -16,7 +16,7 @@
 
 	<ItemGroup>
 	  <None Update="Resources\Images\Icon.png">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </None>
 	</ItemGroup>
 

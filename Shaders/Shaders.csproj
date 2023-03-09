@@ -16,11 +16,11 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<None Update="Shaders\shader.frag">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		<None Update="Shaders\Shaders.frag">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
-		<None Update="Shaders\shader.vert">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		<None Update="Shaders\Shaders.vert">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
 	</ItemGroup>
 

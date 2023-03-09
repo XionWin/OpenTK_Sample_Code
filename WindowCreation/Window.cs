@@ -6,7 +6,7 @@ using System.Drawing;
 namespace WindowCreation;
 public class Window : GLWindow
 {
-    public Window() : base ("Window Creation")
+    public Window() : base ("WindowCreation")
     {}
 
 

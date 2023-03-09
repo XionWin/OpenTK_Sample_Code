@@ -7,7 +7,7 @@ using System.Drawing;
 namespace HelloTriangle;
 public class Window : GLWindow
 {
-    public Window() : base ("Hello Triangle")
+    public Window() : base ("HelloTriangle")
     {}
 
     private readonly float[] _vertices =

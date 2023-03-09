@@ -7,7 +7,7 @@ using System.Drawing;
 namespace ElementBuffer;
 public class Window : GLWindow
 {
-    public Window() : base("Element Buffer")
+    public Window() : base("ElementBuffer")
     { }
 
     private readonly float[] _vertices =
