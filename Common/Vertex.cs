@@ -16,7 +16,38 @@ namespace Common
         }
     }
 
-    public struct Vertex2
+    public interface IVertex2
+    {
+        public Vector2 Position { get; init; }
+        public float[] Raw { get; }
+    }
+
+    public struct ColorVertex2 : IVertex2
+    {
+        public Vector2 Position { get; init; }
+        public Vector3 Color { get; init; }
+
+        private float[]? raw = null;
+        public float[] Raw
+        {
+            get
+            {
+                if (raw is null)
+                {
+                    raw = this.GetRaw();
+                }
+                return raw;
+            }
+        }
+
+        public ColorVertex2(Vector2 position, Vector3 color)
+        {
+            this.Position = position;
+            this.Color = color;
+        }
+    }
+
+    public struct TextureVertex2: IVertex2
     {
         public readonly static IEnumerable<AttribLocation> AttribLocations = new[]
         {
@@ -40,18 +71,46 @@ namespace Common
             }
         }
 
-        public Vertex2(Vector2 position, Vector2 coordinate)
+        public TextureVertex2(Vector2 position, Vector2 coordinate)
         {
             this.Position = position;
             this.Coordinate = coordinate;
         }
     }
 
+
+    public struct ColorTextureVertex2 : IVertex2
+    {
+        public Vector2 Position { get; init; }
+        public Vector2 Coordinate { get; init; }
+        public Vector3 Color { get; init; }
+
+        private float[]? raw = null;
+        public float[] Raw
+        {
+            get
+            {
+                if (raw is null)
+                {
+                    raw = this.GetRaw();
+                }
+                return raw;
+            }
+        }
+
+        public ColorTextureVertex2(Vector2 position, Vector3 color, Vector2 coordinate)
+        {
+            this.Position = position;
+            this.Color = color;
+            this.Coordinate = coordinate;
+        }
+    }
+
     public static class Vertex2Extension
     {
-        public static float[] GetRaw(this Vertex2 vertex) => new[] { vertex.Position.X, vertex.Position.Y, vertex.Coordinate.X, vertex.Coordinate.Y };
-
-
-        public static float[] GetRaw(this IEnumerable<Vertex2> vertices) => vertices.SelectMany(x => x.Raw).ToArray();
+        public static float[] GetRaw(this ColorVertex2 vertex) => new[] { vertex.Position.X, vertex.Position.Y, vertex.Color.X, vertex.Color.Y, vertex.Color.Z };
+        public static float[] GetRaw(this TextureVertex2 vertex) => new[] { vertex.Position.X, vertex.Position.Y, vertex.Coordinate.X, vertex.Coordinate.Y };
+        public static float[] GetRaw(this ColorTextureVertex2 vertex) => new[] { vertex.Position.X, vertex.Position.Y, vertex.Color.X, vertex.Color.Y, vertex.Color.Z, vertex.Coordinate.X, vertex.Coordinate.Y };
+        public static float[] GetRaw(this IEnumerable<IVertex2> vertices) => vertices.SelectMany(x => x.Raw).ToArray();
     }
 }

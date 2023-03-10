@@ -12,12 +12,12 @@ public class Window : GLWindow
     public Window() : base("Textures")
     { }
 
-    private readonly Vertex2[] _vertices = new[]
+    private readonly IVertex2[] _vertices = new IVertex2[]
     {
-        new Vertex2(new Vector2(620f, 100f), new Vector2(1.0f, 0.0f)),
-        new Vertex2(new Vector2(620f, 620f), new Vector2(1.0f, 1.0f)),
-        new Vertex2(new Vector2(100f, 620f), new Vector2(0.0f, 1.0f)),
-        new Vertex2(new Vector2(100f, 100f), new Vector2(0.0f, 0.0f)),
+        new TextureVertex2(new Vector2(620f, 100f), new Vector2(1.0f, 0.0f)),
+        new TextureVertex2(new Vector2(620f, 620f), new Vector2(1.0f, 1.0f)),
+        new TextureVertex2(new Vector2(100f, 620f), new Vector2(0.0f, 1.0f)),
+        new TextureVertex2(new Vector2(100f, 100f), new Vector2(0.0f, 0.0f)),
     };
 
     private readonly uint[] _indices =
@@ -58,7 +58,7 @@ public class Window : GLWindow
         GL.BindBuffer(BufferTarget.ElementArrayBuffer, _ebo);
         GL.BufferData(BufferTarget.ElementArrayBuffer, _indices.Length * sizeof(uint), _indices, BufferUsageHint.StaticDraw);
 
-        this.Shader.EnableAttribs(Vertex2.AttribLocations);
+        this.Shader.EnableAttribs(TextureVertex2.AttribLocations);
 
         _texture = Texture.Load("Resources/container.png", TextureUnit.Texture0);
         _texture.Use(TextureUnit.Texture0);
