@@ -6,6 +6,15 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <EmbeddedResource Include="Shaders\ElementBuffer.frag">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Shaders\ElementBuffer.vert">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+  </ItemGroup>
+
 	<ItemGroup>
 		<PackageReference Include="OpenTK" Version="4.7.5" />
 	</ItemGroup>
@@ -13,15 +22,6 @@
 	<ItemGroup>
 		<ProjectReference Include="..\Common\Common.csproj" />
 		<ProjectReference Include="..\Extension\Extension.csproj" />
-	</ItemGroup>
-
-	<ItemGroup>
-		<None Update="Shaders\ElementBuffer.frag">
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
-		<None Update="Shaders\ElementBuffer.vert">
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
 	</ItemGroup>
 
 </Project>

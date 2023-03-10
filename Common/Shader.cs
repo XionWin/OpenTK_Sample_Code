@@ -1,10 +1,6 @@
 ﻿using Extension;
-using OpenTK.Compute.OpenCL;
 using OpenTK.Graphics.OpenGL4;
-using System.Reflection.Metadata;
-using System.Runtime.CompilerServices;
 using static Extension.SemanticExtension;
-using System.Linq;
 
 namespace Common;
 
@@ -31,6 +27,18 @@ public class Shader
     public void Use()
     {
         GL.UseProgram(ProgramHandle);
+    }
+
+    //public void SetInt(string name, int data)
+    //{
+    //    GL.UseProgram(ProgramHandle);
+    //    GL.Uniform1(_uniformLocations[name], data);
+    //}
+
+    public void SetInt(string locationName, int data)
+    {
+        GL.UseProgram(ProgramHandle);
+        GL.Uniform1(this.UniformLocations[locationName], data);
     }
 
     public int GetAttribLocation(string attribName)

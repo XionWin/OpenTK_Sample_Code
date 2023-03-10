@@ -9,11 +9,11 @@ namespace Common
 
         private Texture(int handle) => this.Handle = handle;
 
-        public static Texture Load(string path)
+        public static Texture Load(string path, TextureUnit textureUnit)
         {
             int handle = GL.GenTexture();
 
-            GL.ActiveTexture(TextureUnit.Texture0);
+            GL.ActiveTexture(textureUnit);
             GL.BindTexture(TextureTarget.Texture2D, handle);
 
             var image = ImageExtension.GetImageData(path);
@@ -52,9 +52,9 @@ namespace Common
         // Multiple textures can be bound, if your shader needs more than just one.
         // If you want to do that, use GL.ActiveTexture to set which slot GL.BindTexture binds to.
         // The OpenGL standard requires that there be at least 16, but there can be more depending on your graphics card.
-        public void Use(TextureUnit unit)
+        public void Use(TextureUnit textureUnit)
         {
-            GL.ActiveTexture(unit);
+            GL.ActiveTexture(textureUnit);
             GL.BindTexture(TextureTarget.Texture2D, Handle);
         }
     }

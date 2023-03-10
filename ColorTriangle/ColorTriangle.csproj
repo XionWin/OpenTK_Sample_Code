@@ -7,21 +7,21 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <EmbeddedResource Include="Shaders\ColorTriangle.frag">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </EmbeddedResource>
+	  <EmbeddedResource Include="Shaders\ColorTriangle.vert">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </EmbeddedResource>
+	</ItemGroup>
+
+	<ItemGroup>
 		<PackageReference Include="OpenTK" Version="4.7.5" />
 	</ItemGroup>
 
 	<ItemGroup>
 		<ProjectReference Include="..\Common\Common.csproj" />
 		<ProjectReference Include="..\Extension\Extension.csproj" />
-	</ItemGroup>
-
-	<ItemGroup>
-		<None Update="Shaders\ColorTriangle.frag">
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
-		<None Update="Shaders\ColorTriangle.vert">
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
 	</ItemGroup>
 
 </Project>

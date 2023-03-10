@@ -7,21 +7,21 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <EmbeddedResource Include="Shaders\WindowCreation.frag">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </EmbeddedResource>
+	  <EmbeddedResource Include="Shaders\WindowCreation.vert">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </EmbeddedResource>
+	</ItemGroup>
+
+	<ItemGroup>
 		<PackageReference Include="OpenTK" Version="4.7.5" />
 	</ItemGroup>
 
 	<ItemGroup>
 		<ProjectReference Include="..\Common\Common.csproj" />
 		<ProjectReference Include="..\Extension\Extension.csproj" />
-	</ItemGroup>
-
-	<ItemGroup>
-		<None Update="Shaders\WindowCreation.frag">
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
-		<None Update="Shaders\WindowCreation.vert">
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
 	</ItemGroup>
 
 </Project>

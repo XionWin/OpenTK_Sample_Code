@@ -33,6 +33,7 @@ public class Window : GLWindow
     private int _ebo;
 
     private Texture? _texture;
+    private Texture? _texture2;
 
     private int _uniformViewPort;
 
@@ -59,8 +60,16 @@ public class Window : GLWindow
 
         this.Shader.EnableAttribs(Vertex2.AttribLocations);
 
-        _texture = Texture.Load("Resources/container.png");
+        _texture = Texture.Load("Resources/container.png", TextureUnit.Texture0);
         _texture.Use(TextureUnit.Texture0);
+
+
+        _texture2 = Texture.Load("Resources/container2.png", TextureUnit.Texture1);
+        _texture2.Use(TextureUnit.Texture1);
+
+
+        this.Shader.SetInt("texture0", 0);
+        this.Shader.SetInt("texture1", 1);
 
         this._uniformViewPort = GL.GetUniformLocation(this.Shader.ProgramHandle, "aViewport");
     }
