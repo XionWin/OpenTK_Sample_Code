@@ -1,11 +1,6 @@
 ﻿using Common;
 using OpenTK.Graphics.OpenGL4;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Numerics;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MultipleObjects.Objects
 {
@@ -13,10 +8,10 @@ namespace MultipleObjects.Objects
     {
         private readonly IVertex2[] _vertices = new IVertex2[]
         {
-            new TextureVertex2(new Vector2(620f, 100f), new Vector2(1.0f, 0.0f)),
-            new TextureVertex2(new Vector2(620f, 620f), new Vector2(1.0f, 1.0f)),
-            new TextureVertex2(new Vector2(100f, 620f), new Vector2(0.0f, 1.0f)),
-            new TextureVertex2(new Vector2(100f, 100f), new Vector2(0.0f, 0.0f)),
+            new TextureVertex2(new Vector2(320f, 0f), new Vector2(0.5f, 0f)),
+            new TextureVertex2(new Vector2(320f, 320f), new Vector2(0.5f, 0.5f)),
+            new TextureVertex2(new Vector2(0f, 320f), new Vector2(0f, 0.5f)),
+            new TextureVertex2(new Vector2(0f, 0f), new Vector2(0f, 0f)), 
         };
 
         private uint[] _indices =
@@ -60,7 +55,7 @@ namespace MultipleObjects.Objects
         {
             // Bind the VAO
             GL.BindVertexArray(_vao);
-            shader.SetInt("texture0", 0);
+            shader.SetInt("aTexture", 0);
             //_texture?.Use(TextureUnit.Texture0);
 
             // Enable Alpha

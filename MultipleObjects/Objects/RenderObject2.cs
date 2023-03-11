@@ -8,10 +8,10 @@ namespace MultipleObjects.Objects
     {
         private readonly IVertex2[] _vertices = new IVertex2[]
         {
-            new TextureVertex2(new Vector2(720f, 100f), new Vector2(1.0f, 0.0f)),
-            new TextureVertex2(new Vector2(720f, 720f), new Vector2(1.0f, 1.0f)),
-            new TextureVertex2(new Vector2(100f, 720f), new Vector2(0.0f, 1.0f)),
-            new TextureVertex2(new Vector2(100f, 100f), new Vector2(0.0f, 0.0f)),
+            new TextureVertex2(new Vector2(640f, 0f), new Vector2(1.0f, 0f)),
+            new TextureVertex2(new Vector2(640f, 320f), new Vector2(1.0f, 0.5f)),
+            new TextureVertex2(new Vector2(320f, 320f), new Vector2(0.5f, 0.5f)),
+            new TextureVertex2(new Vector2(320f, 0f), new Vector2(0.5f, 0f)),
         };
 
         private uint[] _indices =
@@ -54,7 +54,7 @@ namespace MultipleObjects.Objects
         {
             // Bind the VAO
             GL.BindVertexArray(_vao);
-            shader.SetInt("texture0", 1);
+            shader.SetInt("aTexture", 0);
             //_texture?.Use(TextureUnit.Texture1);
 
             // Enable Alpha
