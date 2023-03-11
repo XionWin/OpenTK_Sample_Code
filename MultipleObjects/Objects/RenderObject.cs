@@ -6,7 +6,7 @@ namespace MultipleObjects.Objects
 {
     internal class RenderObject : IRenderObject
     {
-        private readonly IVertex2[] _vertices = new IVertex2[]
+        private IVertex2[] _vertices = new IVertex2[]
         {
             new TextureVertex2(new Vector2(320f, 0f), new Vector2(0.5f, 0f)),
             new TextureVertex2(new Vector2(320f, 320f), new Vector2(0.5f, 0.5f)),
@@ -53,6 +53,21 @@ namespace MultipleObjects.Objects
         {
             // Bind the VAO
             GL.BindVertexArray(_vao);
+
+            // Change vertices data
+            _vertices = new IVertex2[]
+            {
+                new TextureVertex2(new Vector2(640f, 0f), new Vector2(0.5f, 0f)),
+                new TextureVertex2(new Vector2(640f, 640f), new Vector2(0.5f, 0.5f)),
+                new TextureVertex2(new Vector2(0f, 640f), new Vector2(0f, 0.5f)),
+                new TextureVertex2(new Vector2(0f, 0f), new Vector2(0f, 0f)),
+            };
+            // bind vbo and set data for vbo
+            GL.BindBuffer(BufferTarget.ArrayBuffer, _vbo);
+            var vertices = _vertices.GetRaw();
+            GL.BufferData(BufferTarget.ArrayBuffer, vertices.Length * sizeof(float), vertices, BufferUsageHint.StaticDraw);
+
+            // Active texture
             shader.SetInt("aTexture", 0);
 
             // Enable Alpha
