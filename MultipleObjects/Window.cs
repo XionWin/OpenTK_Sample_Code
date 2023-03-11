@@ -14,7 +14,7 @@ public class Window : GLWindow
     { }
 
     private IRenderObject _renderObject = new RenderObject();
-    private IRenderObject _renderObject2 = new RenderObject2();
+    private IRenderObject _renderObject2 = new PixelStyleRenderObject();
 
     private int _uniformViewPort;
 

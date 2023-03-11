@@ -5,7 +5,7 @@ using System.Numerics;
 
 namespace MultipleObjects.Objects
 {
-    internal class RenderObject2 : IRenderObject
+    internal class PixelStyleRenderObject : IRenderObject
     {
         private readonly IVertex2[] _vertices = new IVertex2[]
         {
