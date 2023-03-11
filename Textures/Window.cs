@@ -1,4 +1,5 @@
 ﻿using Common;
+using Extension;
 using OpenTK.Graphics.OpenGL4;
 using OpenTK.Windowing.Common;
 using OpenTK.Windowing.GraphicsLibraryFramework;
@@ -60,11 +61,11 @@ public class Window : GLWindow
 
         this.Shader.EnableAttribs(TextureVertex2.AttribLocations);
 
-        _texture = Texture.Load("Resources/container.png", TextureUnit.Texture0);
+        _texture = new Texture(TextureUnit.Texture0).With(x => x.Load("Resources/container.png"));
         _texture.Use(TextureUnit.Texture0);
 
 
-        _texture2 = Texture.Load("Resources/container2.png", TextureUnit.Texture1);
+        _texture2 = new Texture(TextureUnit.Texture1).With(x => x.Load("Resources/container2.png"));
         _texture2.Use(TextureUnit.Texture1);
 
 

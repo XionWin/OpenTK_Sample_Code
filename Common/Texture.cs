@@ -5,16 +5,21 @@ namespace Common
 {
     public class Texture
     {
-        public int Handle { get; init; }
+        private int _handle { get; init; }
+        private TextureUnit _textureUnit { get; init; }
+        private TextureMinFilter _textureMinFilter { get; init; }
 
-        private Texture(int handle) => this.Handle = handle;
-
-        public static Texture Load(string path, TextureUnit textureUnit)
+        public Texture(TextureUnit textureUnit, TextureMinFilter textureMinFilter = TextureMinFilter.Linear)
         {
-            int handle = GL.GenTexture();
+            this._handle = GL.GenTexture();
+            this._textureUnit = textureUnit;
+            this._textureMinFilter = textureMinFilter;
+        }
 
-            GL.ActiveTexture(textureUnit);
-            GL.BindTexture(TextureTarget.Texture2D, handle);
+        public void Load(string path)
+        {
+            GL.ActiveTexture(this._textureUnit);
+            GL.BindTexture(TextureTarget.Texture2D, this._handle);
 
             var image = ImageExtension.GetImageData(path);
 
@@ -30,8 +35,8 @@ namespace Common
 
             //GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.Linear);
             //GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Linear);
-            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.Nearest);
-            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Nearest);
+            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)this._textureMinFilter);
+            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)this._textureMinFilter);
 
             // Now, set the wrapping mode. S is for the X axis, and T is for the Y axis.
             // We set this to Repeat so that textures will repeat when wrapped. Not demonstrated here since the texture coordinates exactly match
@@ -46,9 +51,6 @@ namespace Common
             // Here you can see and read about the morié effect https://en.wikipedia.org/wiki/Moir%C3%A9_pattern
             // Here is an example of mips in action https://en.wikipedia.org/wiki/File:Mipmap_Aliasing_Comparison.png
             GL.GenerateMipmap(GenerateMipmapTarget.Texture2D);
-
-            return new Texture(handle);
-
         }
 
         // Activate texture
@@ -58,7 +60,7 @@ namespace Common
         public void Use(TextureUnit textureUnit)
         {
             GL.ActiveTexture(textureUnit);
-            GL.BindTexture(TextureTarget.Texture2D, Handle);
+            GL.BindTexture(TextureTarget.Texture2D, _handle);
         }
     }
 }

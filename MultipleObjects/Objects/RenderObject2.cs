@@ -1,4 +1,5 @@
 ﻿using Common;
+using Extension;
 using OpenTK.Graphics.OpenGL4;
 using System.Numerics;
 
@@ -8,10 +9,10 @@ namespace MultipleObjects.Objects
     {
         private readonly IVertex2[] _vertices = new IVertex2[]
         {
-            new TextureVertex2(new Vector2(640f, 0f), new Vector2(1.0f, 0f)),
-            new TextureVertex2(new Vector2(640f, 320f), new Vector2(1.0f, 0.5f)),
-            new TextureVertex2(new Vector2(320f, 320f), new Vector2(0.5f, 0.5f)),
-            new TextureVertex2(new Vector2(320f, 0f), new Vector2(0.5f, 0f)),
+            new TextureVertex2(new Vector2(640f, 0f), new Vector2(0.49f, 0.0f)),
+            new TextureVertex2(new Vector2(640f, 320f), new Vector2(0.49f, 0.5f)),
+            new TextureVertex2(new Vector2(320f, 320f), new Vector2(0.0f, 0.5f)),
+            new TextureVertex2(new Vector2(320f, 0f), new Vector2(0.0f, 0.0f)),
         };
 
         private uint[] _indices =
@@ -44,14 +45,14 @@ namespace MultipleObjects.Objects
 
             shader.EnableAttribs(TextureVertex2.AttribLocations);
 
-            _texture = Texture.Load("Resources/Item2.png", TextureUnit.Texture1);
+            _texture = new Texture(TextureUnit.Texture1, TextureMinFilter.Nearest).With(x => x.Load("Resources/Item1.png"));
         }
 
         public void OnRenderFrame(Shader shader)
         {
             // Bind the VAO
             GL.BindVertexArray(_vao);
-            shader.SetInt("aTexture", 0);
+            shader.SetInt("aTexture", 1);
 
             // Enable Alpha
             GL.Enable(EnableCap.Blend);
