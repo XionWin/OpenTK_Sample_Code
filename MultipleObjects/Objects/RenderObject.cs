@@ -27,7 +27,6 @@ namespace MultipleObjects.Objects
         private int _ebo;
 
         private Texture? _texture;
-        private Texture? _texture2;
         public void OnLoad(Shader shader)
         {
             _vao = GL.GenVertexArray();
@@ -48,7 +47,6 @@ namespace MultipleObjects.Objects
             shader.EnableAttribs(TextureVertex2.AttribLocations);
 
             _texture = Texture.Load("Resources/Item1.png", TextureUnit.Texture0);
-            _texture.Use(TextureUnit.Texture0);
         }
 
         public void OnRenderFrame(Shader shader)
@@ -56,7 +54,6 @@ namespace MultipleObjects.Objects
             // Bind the VAO
             GL.BindVertexArray(_vao);
             shader.SetInt("aTexture", 0);
-            //_texture?.Use(TextureUnit.Texture0);
 
             // Enable Alpha
             GL.Enable(EnableCap.Blend);
