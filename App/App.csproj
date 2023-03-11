@@ -15,6 +15,7 @@
 	  <ProjectReference Include="..\Shaders\Shaders.csproj" />
 	  <ProjectReference Include="..\Textures\Textures.csproj" />
 	  <ProjectReference Include="..\MultipleObjects\MultipleObjects.csproj" />
+	  <ProjectReference Include="..\Transformation\Transformation.csproj" />
   </ItemGroup>
 
 </Project>

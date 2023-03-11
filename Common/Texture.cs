@@ -32,9 +32,6 @@ namespace Common
             // You could also use (amongst other options) Nearest, which just grabs the nearest pixel, which makes the texture look pixelated if scaled too far.
             // NOTE: The default settings for both of these are LinearMipmap. If you leave these as default but don't generate mipmaps,
             // your image will fail to render at all (usually resulting in pure black instead).
-
-            //GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.Linear);
-            //GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Linear);
             GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)this._textureMinFilter);
             GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)this._textureMinFilter);
 
@@ -53,14 +50,14 @@ namespace Common
             GL.GenerateMipmap(GenerateMipmapTarget.Texture2D);
         }
 
-        // Activate texture
-        // Multiple textures can be bound, if your shader needs more than just one.
-        // If you want to do that, use GL.ActiveTexture to set which slot GL.BindTexture binds to.
-        // The OpenGL standard requires that there be at least 16, but there can be more depending on your graphics card.
-        public void Use(TextureUnit textureUnit)
-        {
-            GL.ActiveTexture(textureUnit);
-            GL.BindTexture(TextureTarget.Texture2D, _handle);
-        }
+        //// Activate texture
+        //// Multiple textures can be bound, if your shader needs more than just one.
+        //// If you want to do that, use GL.ActiveTexture to set which slot GL.BindTexture binds to.
+        //// The OpenGL standard requires that there be at least 16, but there can be more depending on your graphics card.
+        //public void Use(TextureUnit textureUnit)
+        //{
+        //    GL.ActiveTexture(textureUnit);
+        //    GL.BindTexture(TextureTarget.Texture2D, _handle);
+        //}
     }
 }

@@ -62,12 +62,7 @@ public class Window : GLWindow
         this.Shader.EnableAttribs(TextureVertex2.AttribLocations);
 
         _texture = new Texture(TextureUnit.Texture0).With(x => x.Load("Resources/container.png"));
-        _texture.Use(TextureUnit.Texture0);
-
-
         _texture2 = new Texture(TextureUnit.Texture1).With(x => x.Load("Resources/container2.png"));
-        _texture2.Use(TextureUnit.Texture1);
-
 
         this.Shader.SetInt("texture0", 0);
         this.Shader.SetInt("texture1", 1);
