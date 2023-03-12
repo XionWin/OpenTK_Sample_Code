@@ -1,5 +1,7 @@
 ﻿using Extension;
 using OpenTK.Graphics.OpenGL4;
+using OpenTK.Mathematics;
+using System.Reflection.Metadata;
 using static Extension.SemanticExtension;
 
 namespace Common;
@@ -39,6 +41,16 @@ public class Shader
     {
         GL.UseProgram(ProgramHandle);
         GL.Uniform1(this.UniformLocations[locationName], data);
+    }
+    public void SetVector2(string locationName, Vector2 data)
+    {
+        GL.UseProgram(ProgramHandle);
+        GL.Uniform2(this.UniformLocations[locationName], data.X, data.Y);
+    }
+    public void SetMatrix4(string locationName, Matrix4 data)
+    {
+        GL.UseProgram(ProgramHandle);
+        GL.UniformMatrix4(this.UniformLocations[locationName], true, ref data);
     }
 
     public int GetAttribLocation(string attribName)

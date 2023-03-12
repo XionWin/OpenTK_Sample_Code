@@ -1,7 +1,7 @@
 ﻿using Common;
 using Extension;
 using OpenTK.Graphics.OpenGL4;
-using System.Numerics;
+using OpenTK.Mathematics;
 
 namespace MultipleObjects.Objects
 {

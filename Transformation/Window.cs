@@ -3,9 +3,7 @@ using MultipleObjects.Objects;
 using OpenTK.Graphics.OpenGL4;
 using OpenTK.Windowing.Common;
 using OpenTK.Windowing.GraphicsLibraryFramework;
-using System.Diagnostics;
 using System.Drawing;
-using System.Numerics;
 
 namespace Transformation;
 public class Window : GLWindow
@@ -13,13 +11,8 @@ public class Window : GLWindow
     public Window() : base("Transformation", 288 * 4, 200 * 4)
     { }
 
-    private IEnumerable<IRenderObject> _renderObjects = new IRenderObject[]
+    private RenderObject[] _renderObjectSamples = new[]
     {
-        
-        //Bg
-        new SceneObject(),
-
-        //tree 0
         new RenderObject()
         {
             Location = new PointF(100, 735 - 45 * 4),
@@ -150,14 +143,41 @@ public class Window : GLWindow
         }
     };
 
+    private IEnumerable<IRenderObject> _renderObjects = new IRenderObject[]
+    {
+        
+        //Bg
+        new SceneObject(),
+
+        //tree 0
+        
+    };
+
     private int _uniformViewPort;
 
     protected override void OnLoad()
     {
         base.OnLoad();
 
+        var random = new Random();
 
-        GL.ClearColor(Color.FromArgb(96, 80, 128));
+        var len = _renderObjectSamples.Length;
+
+        for (int i = 0; i < 1000; i++)
+        {
+            var index = random.NextInt64(len);
+            var original = _renderObjectSamples[index];
+            var item = new RenderObject()
+            {
+                Location = new PointF(random.Next(this.Size.X), random.Next(this.Size.Y)),
+                Size = original.Size,
+                Coordinate = original.Coordinate
+            };
+            _renderObjects = _renderObjects.Append(item);
+        }
+
+
+        GL.ClearColor(Color.FromArgb(96, 96, 168));
 
         foreach (var renderObject in _renderObjects)
         {

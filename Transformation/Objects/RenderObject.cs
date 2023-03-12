@@ -1,8 +1,8 @@
 ﻿using Common;
 using Extension;
 using OpenTK.Graphics.OpenGL4;
+using OpenTK.Mathematics;
 using System.Drawing;
-using System.Numerics;
 
 namespace MultipleObjects.Objects
 {
@@ -61,15 +61,24 @@ namespace MultipleObjects.Objects
             // Change vertices data
             _vertices = new IVertex2[]
             {
-                new TextureVertex2(new Vector2(this.Location.X + this.Size.Width, this.Location.Y), new Vector2(this.Coordinate.X / this.TextureSize.Width + this.Coordinate.Width/this.TextureSize.Width, this.Coordinate.Y / this.TextureSize.Height)),
-                new TextureVertex2(new Vector2(this.Location.X + this.Size.Width, this.Location.Y + this.Size.Height), new Vector2(this.Coordinate.X / this.TextureSize.Width + this.Coordinate.Width/this.TextureSize.Width, this.Coordinate.Y / this.TextureSize.Height + this.Coordinate.Height/this.TextureSize.Height)),
-                new TextureVertex2(new Vector2(this.Location.X, this.Location.Y + this.Size.Height), new Vector2(this.Coordinate.X / this.TextureSize.Width, this.Coordinate.Y / this.TextureSize.Height + this.Coordinate.Height/this.TextureSize.Height)),
-                new TextureVertex2(new Vector2(this.Location.X, this.Location.Y), new Vector2(this.Coordinate.X / this.TextureSize.Width, this.Coordinate.Y / this.TextureSize.Height)),
+                new TextureVertex2(new Vector2(0, 0), new Vector2(this.Coordinate.X / this.TextureSize.Width, this.Coordinate.Y / this.TextureSize.Height)),
+                new TextureVertex2(new Vector2(this.Size.Width, 0), new Vector2(this.Coordinate.X / this.TextureSize.Width + this.Coordinate.Width/this.TextureSize.Width, this.Coordinate.Y / this.TextureSize.Height)),
+                new TextureVertex2(new Vector2(this.Size.Width,  this.Size.Height), new Vector2(this.Coordinate.X / this.TextureSize.Width + this.Coordinate.Width/this.TextureSize.Width, this.Coordinate.Y / this.TextureSize.Height + this.Coordinate.Height/this.TextureSize.Height)),
+                new TextureVertex2(new Vector2(0, this.Size.Height), new Vector2(this.Coordinate.X / this.TextureSize.Width, this.Coordinate.Y / this.TextureSize.Height + this.Coordinate.Height/this.TextureSize.Height)),
             };
             // bind vbo and set data for vbo
             GL.BindBuffer(BufferTarget.ArrayBuffer, _vbo);
             var vertices = _vertices.GetRaw();
             GL.BufferData(BufferTarget.ArrayBuffer, vertices.Length * sizeof(float), vertices, BufferUsageHint.StaticDraw);
+
+            var transform = Matrix4.Identity;
+            transform = transform * Matrix4.CreateRotationZ(MathHelper.DegreesToRadians(DateTime.Now.Ticks / 100000 % 360 + this.Location.X + this.Location.Y));
+            Matrix4.CreateTranslation(this.Location.X, this.Location.Y, 0f, out var t);
+            transform = transform * t;
+            shader.SetMatrix4("aTransform", transform);
+
+
+            shader.SetVector2("aCenter", new Vector2(this.Size.Width / 2f, this.Size.Height / 2f));
 
             // Active texture
             shader.SetInt("aTexture", 0);
@@ -79,6 +88,7 @@ namespace MultipleObjects.Objects
             GL.BlendFunc(BlendingFactor.SrcAlpha, BlendingFactor.OneMinusSrcAlpha);
 
             GL.DrawElements(PrimitiveType.Triangles, _indices.Length, DrawElementsType.UnsignedInt, 0);
+
         }
 
         public void OnUnload()

@@ -3,9 +3,8 @@ using Extension;
 using OpenTK.Graphics.OpenGL4;
 using OpenTK.Windowing.Common;
 using OpenTK.Windowing.GraphicsLibraryFramework;
-using System.Diagnostics;
 using System.Drawing;
-using System.Numerics;
+using OpenTK.Mathematics;
 
 namespace Textures;
 public class Window : GLWindow
