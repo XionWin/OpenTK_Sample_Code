@@ -10,59 +10,35 @@ namespace Transformation;
 public class Window : GLWindow
 {
     private const int ZOOM_FACTOR = 4;
+
+    private readonly static Texture TEXTURE_0 = new Texture(TextureUnit.Texture0, TextureMinFilter.Nearest).With(x => x.Load("Resources/Bg.png"));
+    private readonly static Texture TEXTURE_1 = new Texture(TextureUnit.Texture1, TextureMinFilter.Nearest).With(x => x.Load("Resources/Sprite.png"));
     public Window() : base("Transformation", 288 * ZOOM_FACTOR, 200 * ZOOM_FACTOR)
     {
-        var random = new Random();
-
-        var len = _renderObjectSamples.Length;
-
-        _renderObjects = new[] {
-            new SceneObject(new SizeF(288 * ZOOM_FACTOR, 200 * ZOOM_FACTOR), new RectangleF(0, 0, 288, 200), new Texture(TextureUnit.Texture0, TextureMinFilter.Nearest).With(x => x.Load("Resources/Bg.png"))),
+        this._renderObjects = new[] {
+            new SceneObject(new SizeF(288 * ZOOM_FACTOR, 200 * ZOOM_FACTOR), new RectangleF(0, 0, 288, 200), TEXTURE_0),
          };
-        var texture = new Texture(TextureUnit.Texture1, TextureMinFilter.Nearest).With(x => x.Load("Resources/Sprite.png"));
-
-        for (int i = 0; i < 5000; i++)
-        {
-            var index = random.NextInt64(len);
-            var original = _renderObjectSamples[index];
-            var item = new RenderObject(original.Size, original.Coordinate, texture)
-            {
-                Location = new PointF(random.Next(this.Size.X), random.Next(this.Size.Y)),
-            };
-            _renderObjects = _renderObjects.Append(item);
-        }
     }
 
-    private RenderObject[] _renderObjectSamples = new[]
+    private static RenderObject[] _renderObjectSamples = new[]
     {
-        new RenderObject(new SizeF(38 * ZOOM_FACTOR, 45 * ZOOM_FACTOR), new RectangleF(0, 0, 38, 45), null),
+        new RenderObject(new SizeF(38 * ZOOM_FACTOR, 45 * ZOOM_FACTOR), new RectangleF(0, 0, 38, 45), TEXTURE_1),
         // tree 1
-        new RenderObject(new SizeF(42 * ZOOM_FACTOR, 45 * ZOOM_FACTOR), new RectangleF(38, 0, 42, 45), null),
+        new RenderObject(new SizeF(42 * ZOOM_FACTOR, 45 * ZOOM_FACTOR), new RectangleF(38, 0, 42, 45), TEXTURE_1),
         // bush 0
-        new RenderObject(new SizeF(16 * ZOOM_FACTOR, 12 * ZOOM_FACTOR), new RectangleF(38 + 42, 33, 16, 12), null),
+        new RenderObject(new SizeF(16 * ZOOM_FACTOR, 12 * ZOOM_FACTOR), new RectangleF(38 + 42, 33, 16, 12), TEXTURE_1),
 
         // bush 1
-        new RenderObject(new SizeF(16 * ZOOM_FACTOR, 12 * ZOOM_FACTOR), new RectangleF(38 + 42, 33, 16, 12), null),
+        new RenderObject(new SizeF(16 * ZOOM_FACTOR, 12 * ZOOM_FACTOR), new RectangleF(38 + 42, 33, 16, 12), TEXTURE_1),
 
         // whiteboard 0
-        new RenderObject(new SizeF(16 * ZOOM_FACTOR, 15 * ZOOM_FACTOR), new RectangleF(38 + 42, 18, 16, 15), null),
+        new RenderObject(new SizeF(16 * ZOOM_FACTOR, 15 * ZOOM_FACTOR), new RectangleF(38 + 42, 18, 16, 15), TEXTURE_1),
 
         // ground
-        new RenderObject(new SizeF(45 * ZOOM_FACTOR, 16 * ZOOM_FACTOR), new RectangleF(0, 45, 45, 16), null),
-        new RenderObject(new SizeF(16 * ZOOM_FACTOR, 16 * ZOOM_FACTOR), new RectangleF(45, 45, 16, 16), null),
-        new RenderObject(new SizeF(16 * ZOOM_FACTOR, 16 * ZOOM_FACTOR), new RectangleF(45, 45, 16, 16), null),
-        new RenderObject(new SizeF(16 * ZOOM_FACTOR, 16 * ZOOM_FACTOR), new RectangleF(45, 45, 16, 16), null),
-        new RenderObject(new SizeF(16 * ZOOM_FACTOR, 16 * ZOOM_FACTOR), new RectangleF(45, 45, 16, 16), null),
-        new RenderObject(new SizeF(16 * ZOOM_FACTOR, 16 * ZOOM_FACTOR), new RectangleF(45, 45, 16, 16), null),
-        new RenderObject(new SizeF(16 * ZOOM_FACTOR, 16 * ZOOM_FACTOR), new RectangleF(45, 45, 16, 16), null),
-        new RenderObject(new SizeF(16 * ZOOM_FACTOR, 16 * ZOOM_FACTOR), new RectangleF(45, 45, 16, 16), null),
-        new RenderObject(new SizeF(16 * ZOOM_FACTOR, 16 * ZOOM_FACTOR), new RectangleF(45, 45, 16, 16), null),
-        new RenderObject(new SizeF(16 * ZOOM_FACTOR, 16 * ZOOM_FACTOR), new RectangleF(45, 45, 16, 16), null),
-        new RenderObject(new SizeF(16 * ZOOM_FACTOR, 16 * ZOOM_FACTOR), new RectangleF(45, 45, 16, 16), null),
-        new RenderObject(new SizeF(16 * ZOOM_FACTOR, 16 * ZOOM_FACTOR), new RectangleF(45, 45, 16, 16), null),
-        new RenderObject(new SizeF(16 * ZOOM_FACTOR, 16 * ZOOM_FACTOR), new RectangleF(45, 45, 16, 16), null),
-        new RenderObject(new SizeF(16 * ZOOM_FACTOR, 16 * ZOOM_FACTOR), new RectangleF(45, 45, 16, 16), null),
-        new RenderObject(new SizeF(44 * ZOOM_FACTOR, 16 * ZOOM_FACTOR), new RectangleF(45 + 16, 45, 44, 16), null)
+        new RenderObject(new SizeF(45 * ZOOM_FACTOR, 16 * ZOOM_FACTOR), new RectangleF(0, 45, 45, 16), TEXTURE_1),
+        new RenderObject(new SizeF(16 * ZOOM_FACTOR, 16 * ZOOM_FACTOR), new RectangleF(45, 45, 16, 16), TEXTURE_1),
+        new RenderObject(new SizeF(16 * ZOOM_FACTOR, 16 * ZOOM_FACTOR), new RectangleF(45, 45, 16, 16), TEXTURE_1),
+        new RenderObject(new SizeF(44 * ZOOM_FACTOR, 16 * ZOOM_FACTOR), new RectangleF(45 + 16, 45, 44, 16), TEXTURE_1)
     };
 
     private IEnumerable<IRenderObject> _renderObjects;
@@ -72,6 +48,21 @@ public class Window : GLWindow
     protected override void OnLoad()
     {
         base.OnLoad();
+
+
+        var random = new Random();
+
+        var len = _renderObjectSamples.Length;
+        for (int i = 0; i < 100; i++)
+        {
+            var index = random.NextInt64(len);
+            var original = _renderObjectSamples[index];
+            var item = new RenderObject(original.Size, original.Coordinate, original.Texture)
+            {
+                Location = new PointF(random.Next(this.Size.X), random.Next(this.Size.Y)),
+            };
+            _renderObjects = _renderObjects.Append(item);
+        }
 
 
         GL.ClearColor(Color.FromArgb(96, 96, 168));
