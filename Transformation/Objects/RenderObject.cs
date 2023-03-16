@@ -42,10 +42,10 @@ namespace MultipleObjects.Objects
             // Change vertices data
             _vertices = new IVertex2[]
             {
-                new TextureVertex2(new Vector2(0, 0), new Vector2(this.Coordinate.X / this.Texture!.Size.X, this.Coordinate.Y / this.Texture!.Size.Y)),
-                new TextureVertex2(new Vector2(this.Size.Width, 0), new Vector2(this.Coordinate.X / this.Texture!.Size.X + this.Coordinate.Width/this.Texture!.Size.X, this.Coordinate.Y / this.Texture!.Size.Y)),
-                new TextureVertex2(new Vector2(this.Size.Width,  this.Size.Height), new Vector2(this.Coordinate.X / this.Texture!.Size.X + this.Coordinate.Width/this.Texture!.Size.X, this.Coordinate.Y / this.Texture!.Size.Y + this.Coordinate.Height/this.Texture!.Size.Y)),
-                new TextureVertex2(new Vector2(0, this.Size.Height), new Vector2(this.Coordinate.X / this.Texture!.Size.X, this.Coordinate.Y / this.Texture!.Size.Y + this.Coordinate.Height/this.Texture!.Size.Y)),
+                new ColorTextureVertex2(new Vector2(0, 0), new Vector3(1.0f, 0f, 0f), new Vector2(this.Coordinate.X / this.Texture!.Size.X, this.Coordinate.Y / this.Texture!.Size.Y)),
+                new ColorTextureVertex2(new Vector2(this.Size.Width, 0), new Vector3(0f, 1.0f, 0f), new Vector2(this.Coordinate.X / this.Texture!.Size.X + this.Coordinate.Width/this.Texture!.Size.X, this.Coordinate.Y / this.Texture!.Size.Y)),
+                new ColorTextureVertex2(new Vector2(this.Size.Width,  this.Size.Height), new Vector3(1.0f, 1.0f, 1.0f), new Vector2(this.Coordinate.X / this.Texture!.Size.X + this.Coordinate.Width/this.Texture!.Size.X, this.Coordinate.Y / this.Texture!.Size.Y + this.Coordinate.Height/this.Texture!.Size.Y)),
+                new ColorTextureVertex2(new Vector2(0, this.Size.Height), new Vector3(1.0f, 1.0f, 1.0f), new Vector2(this.Coordinate.X / this.Texture!.Size.X, this.Coordinate.Y / this.Texture!.Size.Y + this.Coordinate.Height/this.Texture!.Size.Y)),
             };
 
 
@@ -64,7 +64,7 @@ namespace MultipleObjects.Objects
             GL.BindBuffer(BufferTarget.ElementArrayBuffer, _ebo);
             GL.BufferData(BufferTarget.ElementArrayBuffer, _indices.Length * sizeof(uint), _indices, BufferUsageHint.StaticDraw);
 
-            shader.EnableAttribs(TextureVertex2.AttribLocations);
+            shader.EnableAttribs(ColorTextureVertex2.AttribLocations);
 
         }
 

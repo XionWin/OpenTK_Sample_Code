@@ -26,6 +26,11 @@ namespace Common
 
     public struct ColorVertex2 : IVertex2
     {
+        public readonly static IEnumerable<AttribLocation> AttribLocations = new[]
+        {
+            new AttribLocation("aPos", 0, 2),
+            new AttribLocation("aColor", 2, 3),
+        };
         public Vector2 Position { get; init; }
         public Vector3 Color { get; init; }
 
@@ -83,6 +88,13 @@ namespace Common
 
     public struct ColorTextureVertex2 : IVertex2
     {
+        public readonly static IEnumerable<AttribLocation> AttribLocations = new[]
+        {
+            new AttribLocation("aPos", 0, 2),
+            new AttribLocation("aColor", 2, 3),
+            new AttribLocation("aTexCoord", 5, 2),
+        };
+
         public Vector2 Position { get; init; }
         public Vector2 Coordinate { get; init; }
         public Vector3 Color { get; init; }

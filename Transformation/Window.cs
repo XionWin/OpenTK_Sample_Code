@@ -21,7 +21,7 @@ public class Window : GLWindow
          };
         var texture = new Texture(TextureUnit.Texture1, TextureMinFilter.Nearest).With(x => x.Load("Resources/Sprite.png"));
 
-        for (int i = 0; i < 200; i++)
+        for (int i = 0; i < 5000; i++)
         {
             var index = random.NextInt64(len);
             var original = _renderObjectSamples[index];
