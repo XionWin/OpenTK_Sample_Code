@@ -1,4 +1,5 @@
 ﻿using Common;
+using Extension;
 using MultipleObjects.Objects;
 using OpenTK.Graphics.OpenGL4;
 using OpenTK.Windowing.Common;
@@ -8,173 +9,69 @@ using System.Drawing;
 namespace Transformation;
 public class Window : GLWindow
 {
-    public Window() : base("Transformation", 288 * 4, 200 * 4)
-    { }
+    private const int ZOOM_FACTOR = 4;
+    public Window() : base("Transformation", 288 * ZOOM_FACTOR, 200 * ZOOM_FACTOR)
+    {
+        var random = new Random();
+
+        var len = _renderObjectSamples.Length;
+
+        _renderObjects = new[] {
+            new SceneObject(new SizeF(288 * ZOOM_FACTOR, 200 * ZOOM_FACTOR), new RectangleF(0, 0, 288, 200), new Texture(TextureUnit.Texture0, TextureMinFilter.Nearest).With(x => x.Load("Resources/Bg.png"))),
+         };
+        var texture = new Texture(TextureUnit.Texture1, TextureMinFilter.Nearest).With(x => x.Load("Resources/Sprite.png"));
+
+        for (int i = 0; i < 200; i++)
+        {
+            var index = random.NextInt64(len);
+            var original = _renderObjectSamples[index];
+            var item = new RenderObject(original.Size, original.Coordinate, texture)
+            {
+                Location = new PointF(random.Next(this.Size.X), random.Next(this.Size.Y)),
+            };
+            _renderObjects = _renderObjects.Append(item);
+        }
+    }
 
     private RenderObject[] _renderObjectSamples = new[]
     {
-        new RenderObject()
-        {
-            Location = new PointF(100, 735 - 45 * 4),
-            Size = new SizeF(38 * 4, 45 * 4),
-            Coordinate = new RectangleF(0, 0, 38, 45)
-        },
+        new RenderObject(new SizeF(38 * ZOOM_FACTOR, 45 * ZOOM_FACTOR), new RectangleF(0, 0, 38, 45), null),
         // tree 1
-        new RenderObject()
-        {
-            Location = new PointF(100 + 38 * 4 + 120, 735 - 45 * 4),
-            Size = new SizeF(42 * 4, 45 * 4),
-            Coordinate = new RectangleF(38, 0, 42, 45)
-        },
+        new RenderObject(new SizeF(42 * ZOOM_FACTOR, 45 * ZOOM_FACTOR), new RectangleF(38, 0, 42, 45), null),
         // bush 0
-        new RenderObject()
-        {
-            Location = new PointF(100 + 38 * 4 + 120 + 42 * 4 + 50, 735 - 12 * 4),
-            Size = new SizeF(16 * 4, 12 * 4),
-            Coordinate = new RectangleF(38 + 42, 33, 16, 12)
-        },
+        new RenderObject(new SizeF(16 * ZOOM_FACTOR, 12 * ZOOM_FACTOR), new RectangleF(38 + 42, 33, 16, 12), null),
 
         // bush 1
-        new RenderObject()
-        {
-            Location = new PointF(100 + 38 * 4 + 120 + 42 * 4 + 50 + 16 * 4 + 30, 735 - 12 * 4),
-            Size = new SizeF(16 * 4, 12 * 4),
-            Coordinate = new RectangleF(38 + 42, 33, 16, 12)
-        },
+        new RenderObject(new SizeF(16 * ZOOM_FACTOR, 12 * ZOOM_FACTOR), new RectangleF(38 + 42, 33, 16, 12), null),
 
         // whiteboard 0
-        new RenderObject()
-        {
-            Location = new PointF(100 + 38 * 4 + 30, 735 - 15 * 4),
-            Size = new SizeF(16 * 4, 15 * 4),
-            Coordinate = new RectangleF(38 + 42, 18, 16, 15)
-        },
+        new RenderObject(new SizeF(16 * ZOOM_FACTOR, 15 * ZOOM_FACTOR), new RectangleF(38 + 42, 18, 16, 15), null),
 
         // ground
-        new RenderObject()
-        {
-            Location = new PointF(0, 555 + 45 * 4),
-            Size = new SizeF(45 * 4, 16 * 4),
-            Coordinate = new RectangleF(0, 45, 45, 16)
-        },
-        new RenderObject()
-        {
-            Location = new PointF(0 + 45 * 4, 555 + 45 * 4),
-            Size = new SizeF(16 * 4, 16 * 4),
-            Coordinate = new RectangleF(45, 45, 16, 16)
-        },
-        new RenderObject()
-        {
-            Location = new PointF(0 + 45 * 4 + 16 * 4, 555 + 45 * 4),
-            Size = new SizeF(16 * 4, 16 * 4),
-            Coordinate = new RectangleF(45, 45, 16, 16)
-        },
-        new RenderObject()
-        {
-            Location = new PointF(0 + 45 * 4 + 16 * 4 * 2, 555 + 45 * 4),
-            Size = new SizeF(16 * 4, 16 * 4),
-            Coordinate = new RectangleF(45, 45, 16, 16)
-        },
-        new RenderObject()
-        {
-            Location = new PointF(0 + 45 * 4 + 16 * 4 * 3, 555 + 45 * 4),
-            Size = new SizeF(16 * 4, 16 * 4),
-            Coordinate = new RectangleF(45, 45, 16, 16)
-        },
-        new RenderObject()
-        {
-            Location = new PointF(0 + 45 * 4 + 16 * 4 * 4, 555 + 45 * 4),
-            Size = new SizeF(16 * 4, 16 * 4),
-            Coordinate = new RectangleF(45, 45, 16, 16)
-        },
-        new RenderObject()
-        {
-            Location = new PointF(0 + 45 * 4 + 16 * 4 * 5, 555 + 45 * 4),
-            Size = new SizeF(16 * 4, 16 * 4),
-            Coordinate = new RectangleF(45, 45, 16, 16)
-        },
-        new RenderObject()
-        {
-            Location = new PointF(0 + 45 * 4 + 16 * 4 * 6, 555 + 45 * 4),
-            Size = new SizeF(16 * 4, 16 * 4),
-            Coordinate = new RectangleF(45, 45, 16, 16)
-        },
-        new RenderObject()
-        {
-            Location = new PointF(0 + 45 * 4 + 16 * 4 * 7, 555 + 45 * 4),
-            Size = new SizeF(16 * 4, 16 * 4),
-            Coordinate = new RectangleF(45, 45, 16, 16)
-        },
-        new RenderObject()
-        {
-            Location = new PointF(0 + 45 * 4 + 16 * 4 * 8, 555 + 45 * 4),
-            Size = new SizeF(16 * 4, 16 * 4),
-            Coordinate = new RectangleF(45, 45, 16, 16)
-        },
-        new RenderObject()
-        {
-            Location = new PointF(0 + 45 * 4 + 16 * 4 * 9, 555 + 45 * 4),
-            Size = new SizeF(16 * 4, 16 * 4),
-            Coordinate = new RectangleF(45, 45, 16, 16)
-        },
-        new RenderObject()
-        {
-            Location = new PointF(0 + 45 * 4 + 16 * 4 * 10, 555 + 45 * 4),
-            Size = new SizeF(16 * 4, 16 * 4),
-            Coordinate = new RectangleF(45, 45, 16, 16)
-        },
-        new RenderObject()
-        {
-            Location = new PointF(0 + 45 * 4 + 16 * 4 * 11, 555 + 45 * 4),
-            Size = new SizeF(16 * 4, 16 * 4),
-            Coordinate = new RectangleF(45, 45, 16, 16)
-        },
-        new RenderObject()
-        {
-            Location = new PointF(0 + 45 * 4 + 16 * 4 * 12, 555 + 45 * 4),
-            Size = new SizeF(16 * 4, 16 * 4),
-            Coordinate = new RectangleF(45, 45, 16, 16)
-        },
-        new RenderObject()
-        {
-            Location = new PointF(0 + 45 * 4 + 16 * 4 * 13, 555 + 45 * 4),
-            Size = new SizeF(44 * 4, 16 * 4),
-            Coordinate = new RectangleF(45 + 16, 45, 44, 16)
-        }
+        new RenderObject(new SizeF(45 * ZOOM_FACTOR, 16 * ZOOM_FACTOR), new RectangleF(0, 45, 45, 16), null),
+        new RenderObject(new SizeF(16 * ZOOM_FACTOR, 16 * ZOOM_FACTOR), new RectangleF(45, 45, 16, 16), null),
+        new RenderObject(new SizeF(16 * ZOOM_FACTOR, 16 * ZOOM_FACTOR), new RectangleF(45, 45, 16, 16), null),
+        new RenderObject(new SizeF(16 * ZOOM_FACTOR, 16 * ZOOM_FACTOR), new RectangleF(45, 45, 16, 16), null),
+        new RenderObject(new SizeF(16 * ZOOM_FACTOR, 16 * ZOOM_FACTOR), new RectangleF(45, 45, 16, 16), null),
+        new RenderObject(new SizeF(16 * ZOOM_FACTOR, 16 * ZOOM_FACTOR), new RectangleF(45, 45, 16, 16), null),
+        new RenderObject(new SizeF(16 * ZOOM_FACTOR, 16 * ZOOM_FACTOR), new RectangleF(45, 45, 16, 16), null),
+        new RenderObject(new SizeF(16 * ZOOM_FACTOR, 16 * ZOOM_FACTOR), new RectangleF(45, 45, 16, 16), null),
+        new RenderObject(new SizeF(16 * ZOOM_FACTOR, 16 * ZOOM_FACTOR), new RectangleF(45, 45, 16, 16), null),
+        new RenderObject(new SizeF(16 * ZOOM_FACTOR, 16 * ZOOM_FACTOR), new RectangleF(45, 45, 16, 16), null),
+        new RenderObject(new SizeF(16 * ZOOM_FACTOR, 16 * ZOOM_FACTOR), new RectangleF(45, 45, 16, 16), null),
+        new RenderObject(new SizeF(16 * ZOOM_FACTOR, 16 * ZOOM_FACTOR), new RectangleF(45, 45, 16, 16), null),
+        new RenderObject(new SizeF(16 * ZOOM_FACTOR, 16 * ZOOM_FACTOR), new RectangleF(45, 45, 16, 16), null),
+        new RenderObject(new SizeF(16 * ZOOM_FACTOR, 16 * ZOOM_FACTOR), new RectangleF(45, 45, 16, 16), null),
+        new RenderObject(new SizeF(44 * ZOOM_FACTOR, 16 * ZOOM_FACTOR), new RectangleF(45 + 16, 45, 44, 16), null)
     };
 
-    private IEnumerable<IRenderObject> _renderObjects = new IRenderObject[]
-    {
-        
-        //Bg
-        new SceneObject(),
-
-        //tree 0
-        
-    };
+    private IEnumerable<IRenderObject> _renderObjects;
 
     private int _uniformViewPort;
 
     protected override void OnLoad()
     {
         base.OnLoad();
-
-        var random = new Random();
-
-        var len = _renderObjectSamples.Length;
-
-        for (int i = 0; i < 1000; i++)
-        {
-            var index = random.NextInt64(len);
-            var original = _renderObjectSamples[index];
-            var item = new RenderObject()
-            {
-                Location = new PointF(random.Next(this.Size.X), random.Next(this.Size.Y)),
-                Size = original.Size,
-                Coordinate = original.Coordinate
-            };
-            _renderObjects = _renderObjects.Append(item);
-        }
 
 
         GL.ClearColor(Color.FromArgb(96, 96, 168));

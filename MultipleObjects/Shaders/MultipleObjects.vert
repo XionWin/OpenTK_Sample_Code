@@ -1,7 +1,7 @@
 #version 330 core
 
 // the position variable has attribute position 0
-layout(location = 0) in vec2 aPosition;  
+layout(location = 0) in vec2 aPos;  
 
 // This is where the color values we assigned in the main program goes to
 
@@ -13,7 +13,7 @@ uniform vec3 aViewport;
 
 void main(void)
 {
-    gl_Position = vec4(aPosition.x / aViewport.x * 2.0 - 1.0, 1.0 - aPosition.y / aViewport.y * 2.0, 0.0, 1.0);
+    gl_Position = vec4(aPos.x / aViewport.x * 2.0 - 1.0, 1.0 - aPos.y / aViewport.y * 2.0, 0.0, 1.0);
 
 	texCoord = aTexCoord;
 }

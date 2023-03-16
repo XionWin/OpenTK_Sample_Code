@@ -1,5 +1,6 @@
 ﻿using Extension;
 using OpenTK.Graphics.OpenGL4;
+using OpenTK.Mathematics;
 
 namespace Common
 {
@@ -8,6 +9,7 @@ namespace Common
         private int _handle { get; init; }
         private TextureUnit _textureUnit { get; init; }
         private TextureMinFilter _textureMinFilter { get; init; }
+        public Vector2 Size { get; private set; }
 
         public Texture(TextureUnit textureUnit, TextureMinFilter textureMinFilter = TextureMinFilter.Linear)
         {
@@ -22,6 +24,7 @@ namespace Common
             GL.BindTexture(TextureTarget.Texture2D, this._handle);
 
             var image = ImageExtension.GetImageData(path);
+            this.Size = new Vector2(image.Width, image.Height);
 
             GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, image.Width, image.Height, 0, PixelFormat.Rgba, PixelType.UnsignedByte, image.Value);
 

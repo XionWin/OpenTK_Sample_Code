@@ -31,12 +31,6 @@ public class Shader
         GL.UseProgram(ProgramHandle);
     }
 
-    //public void SetInt(string name, int data)
-    //{
-    //    GL.UseProgram(ProgramHandle);
-    //    GL.Uniform1(_uniformLocations[name], data);
-    //}
-
     public void SetInt(string locationName, int data)
     {
         GL.UseProgram(ProgramHandle);

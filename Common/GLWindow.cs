@@ -22,7 +22,7 @@ public class GLWindow : GameWindow
             {
                 Title = title,
                 Size = new Vector2i(width, height),
-                //WindowBorder = WindowBorder.Fixed,
+                WindowBorder = WindowBorder.Fixed,
                 API = ContextAPI.OpenGL,
                 APIVersion = new Version(4, 5),
                 Icon = iconPath?.Then(x => ImageExtension.CreateWindowIcon(x))

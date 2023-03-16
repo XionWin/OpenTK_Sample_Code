@@ -53,7 +53,7 @@ namespace Common
     {
         public readonly static IEnumerable<AttribLocation> AttribLocations = new[]
         {
-            new AttribLocation("aPosition", 0, 2),
+            new AttribLocation("aPos", 0, 2),
             new AttribLocation("aTexCoord", 2, 2),
         };
 

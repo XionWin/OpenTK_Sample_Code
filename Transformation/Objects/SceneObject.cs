@@ -8,7 +8,6 @@ namespace MultipleObjects.Objects
 {
     internal class SceneObject : IRenderObject
     {
-        private static int IX = 1;
         private IVertex2[] _vertices = new IVertex2[0];
 
         private uint[] _indices =
@@ -23,7 +22,19 @@ namespace MultipleObjects.Objects
 
         private int _ebo;
 
-        private Texture? _texture;
+        public PointF Location { get; set; }
+        public SizeF Size { get; set; }
+
+        public RectangleF Coordinate { get; set; }
+        public Texture? Texture { get; set; }
+
+        public SceneObject(SizeF size, RectangleF coordinate, Texture? texture)
+        {
+            this.Size = size;
+            this.Coordinate = coordinate;
+            this.Texture = texture;
+        }
+
         public void OnLoad(Shader shader)
         {
             _vao = GL.GenVertexArray();
@@ -32,8 +43,20 @@ namespace MultipleObjects.Objects
 
             GL.BindVertexArray(_vao); 
 
+            // Change vertices data
+            _vertices = new IVertex2[]
+            {
+                new TextureVertex2(new Vector2(0, 0), new Vector2(this.Coordinate.X / this.Texture!.Size.X, this.Coordinate.Y / this.Texture!.Size.Y)),
+                new TextureVertex2(new Vector2(this.Size.Width, 0), new Vector2(this.Coordinate.X / this.Texture!.Size.X + this.Coordinate.Width/this.Texture!.Size.X, this.Coordinate.Y / this.Texture!.Size.Y)),
+                new TextureVertex2(new Vector2(this.Size.Width,  this.Size.Height), new Vector2(this.Coordinate.X / this.Texture!.Size.X + this.Coordinate.Width/this.Texture!.Size.X, this.Coordinate.Y / this.Texture!.Size.Y + this.Coordinate.Height/this.Texture!.Size.Y)),
+                new TextureVertex2(new Vector2(0, this.Size.Height), new Vector2(this.Coordinate.X / this.Texture!.Size.X, this.Coordinate.Y / this.Texture!.Size.Y + this.Coordinate.Height/this.Texture!.Size.Y)),
+            };
             // bind vbo and set data for vbo
             GL.BindBuffer(BufferTarget.ArrayBuffer, _vbo);
+            var vertices = _vertices.GetRaw();
+            GL.BufferData(BufferTarget.ArrayBuffer, vertices.Length * sizeof(float), vertices, BufferUsageHint.StaticDraw);
+
+
 
             //var vertices = _vertices.GetRaw();
             //GL.BufferData(BufferTarget.ArrayBuffer, vertices.Length * sizeof(float), vertices, BufferUsageHint.StaticDraw);
@@ -43,34 +66,13 @@ namespace MultipleObjects.Objects
             GL.BufferData(BufferTarget.ElementArrayBuffer, _indices.Length * sizeof(uint), _indices, BufferUsageHint.StaticDraw);
 
             shader.EnableAttribs(TextureVertex2.AttribLocations);
-
-            _texture = new Texture(TextureUnit.Texture1, TextureMinFilter.Nearest).With(x => x.Load("Resources/Bg.png"));
         }
 
-        public PointF Location { get; set; } = new PointF(0, 0);
-        public SizeF Size { get; set; } = new SizeF(288 * 4, 200 * 4);
-
-        public RectangleF Coordinate { get; set; } = new RectangleF(0, 0, 288, 200);
-        public SizeF TextureSize { get; set; } = new SizeF(288, 200);
 
         public void OnRenderFrame(Shader shader)
         {
             // Bind the VAO
             GL.BindVertexArray(_vao);
-
-            // Change vertices data
-            _vertices = new IVertex2[]
-            {
-                new TextureVertex2(new Vector2(this.Size.Width, 0), new Vector2(this.Coordinate.X / this.TextureSize.Width + this.Coordinate.Width/this.TextureSize.Width, this.Coordinate.Y / this.TextureSize.Height)),
-                new TextureVertex2(new Vector2(this.Size.Width, this.Size.Height), new Vector2(this.Coordinate.X / this.TextureSize.Width + this.Coordinate.Width/this.TextureSize.Width, this.Coordinate.Y / this.TextureSize.Height + this.Coordinate.Height/this.TextureSize.Height)),
-                new TextureVertex2(new Vector2(0, this.Size.Height), new Vector2(this.Coordinate.X / this.TextureSize.Width, this.Coordinate.Y / this.TextureSize.Height + this.Coordinate.Height/this.TextureSize.Height)),
-                new TextureVertex2(new Vector2(0, 0), new Vector2(this.Coordinate.X / this.TextureSize.Width, this.Coordinate.Y / this.TextureSize.Height)),
-            };
-            // bind vbo and set data for vbo
-            GL.BindBuffer(BufferTarget.ArrayBuffer, _vbo);
-            var vertices = _vertices.GetRaw();
-            GL.BufferData(BufferTarget.ArrayBuffer, vertices.Length * sizeof(float), vertices, BufferUsageHint.StaticDraw);
-
             var transform = Matrix4.Identity;
             shader.SetMatrix4("aTransform", transform);
 
@@ -78,7 +80,7 @@ namespace MultipleObjects.Objects
             shader.SetVector2("aCenter", new Vector2(this.Size.Width / 2f, this.Size.Height / 2f));
 
             // Active texture
-            shader.SetInt("aTexture", 1);
+            shader.SetInt("aTexture", 0);
 
             // Enable Alpha
             GL.Enable(EnableCap.Blend);
