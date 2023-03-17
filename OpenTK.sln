@@ -25,6 +25,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MultipleObjects", "Multiple
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Transformation", "Transformation\Transformation.csproj", "{9CC30FED-3540-457D-8EB6-03E4B8ECE94E}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Character", "Character\Character.csproj", "{4943677B-3B29-46FD-A5E5-B7ABCF68722C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -75,6 +77,10 @@ Global
 		{9CC30FED-3540-457D-8EB6-03E4B8ECE94E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9CC30FED-3540-457D-8EB6-03E4B8ECE94E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9CC30FED-3540-457D-8EB6-03E4B8ECE94E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4943677B-3B29-46FD-A5E5-B7ABCF68722C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4943677B-3B29-46FD-A5E5-B7ABCF68722C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4943677B-3B29-46FD-A5E5-B7ABCF68722C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4943677B-3B29-46FD-A5E5-B7ABCF68722C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
