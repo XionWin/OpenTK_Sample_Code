@@ -12,7 +12,7 @@ public class Window : GLWindow
     private const int ZOOM_FACTOR = 4;
 
     private readonly static Texture TEXTURE_0 = new Texture(TextureUnit.Texture0, TextureMinFilter.Nearest).With(x => x.Load("Resources/Bg.png"));
-    private readonly static Texture TEXTURE_1 = new Texture(TextureUnit.Texture1, TextureMinFilter.Nearest).With(x => x.Load("Resources/Explosion.png"));
+    private readonly static Texture TEXTURE_1 = new Texture(TextureUnit.Texture1, TextureMinFilter.Nearest).With(x => x.Load("Resources/Character.png"));
     public Window() : base("Character", 288 * ZOOM_FACTOR, 200 * ZOOM_FACTOR)
     {
         this._renderObjects = new IRenderObject[] {
@@ -22,7 +22,7 @@ public class Window : GLWindow
 
     private static RenderObject[] _renderObjectSamples = new[]
     {
-        new RenderObject(new SizeF(256, 256), new RectangleF(0, 0, 256, 256), TEXTURE_1),
+        new RenderObject(new SizeF(64 * ZOOM_FACTOR, 64 * ZOOM_FACTOR), new RectangleF(0, 0, 64, 64), TEXTURE_1),
     };
 
     private IEnumerable<IRenderObject> _renderObjects;
@@ -36,13 +36,13 @@ public class Window : GLWindow
         var random = new Random();
 
         var len = _renderObjectSamples.Length;
-        for (int i = 0; i < 200; i++)
+        for (int i = 0; i < 50; i++)
         {
             var index = random.NextInt64(len);
             var original = _renderObjectSamples[index];
             var item = new RenderObject(original.Size, original.Coordinate, original.Texture)
             {
-                Location = new PointF(random.Next(this.Size.X - (int)original.Size.Width) - original.Size.Width / 4, random.Next(this.Size.Y - (int)original.Size.Height) - original.Size.Height / 4),
+                Location = new PointF(random.Next((int)(this.Size.X - original.Size.Width)), random.Next((int)(this.Size.Y - original.Size.Height))),
             };
             _renderObjects = _renderObjects.Append(item);
         }

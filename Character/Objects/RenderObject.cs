@@ -29,11 +29,29 @@ namespace Character.Objects
         public RectangleF Coordinate { get; set; }
         public Texture? Texture { get; set; }
 
+
+        private int[] _actionTable = new int[]
+        {
+            7, 7, 7, 7,
+            8, 8, 8, 8,
+            9, 9, 9, 9,
+            6, 6, 6, 6,
+            13, 13, 13,
+            6
+        };
+
+
+        private Vector3 _color = new Vector3();
+        private int _action = 0;
         public RenderObject(SizeF size, RectangleF coordinate, Texture? texture)
         {
             this.Size = size;
             this.Coordinate = coordinate;
             this.Texture = texture;
+
+            var random = new Random();
+            _color = new Vector3(random.NextSingle(), random.NextSingle(), random.NextSingle());
+            _action = random.Next(_actionTable.Length);
         }
 
 
@@ -42,10 +60,10 @@ namespace Character.Objects
             // Change vertices data
             _vertices = new IVertex2[]
             {
-                new ColorTextureVertex2(new Vector2(0, 0), new Vector3(1.0f, 0f, 0f), new Vector2(this.Coordinate.X / this.Texture!.Size.X, this.Coordinate.Y / this.Texture!.Size.Y)),
-                new ColorTextureVertex2(new Vector2(this.Size.Width, 0), new Vector3(0f, 1.0f, 0f), new Vector2(this.Coordinate.X / this.Texture!.Size.X + this.Coordinate.Width/this.Texture!.Size.X, this.Coordinate.Y / this.Texture!.Size.Y)),
-                new ColorTextureVertex2(new Vector2(this.Size.Width,  this.Size.Height), new Vector3(1.0f, 1.0f, 1.0f), new Vector2(this.Coordinate.X / this.Texture!.Size.X + this.Coordinate.Width/this.Texture!.Size.X, this.Coordinate.Y / this.Texture!.Size.Y + this.Coordinate.Height/this.Texture!.Size.Y)),
-                new ColorTextureVertex2(new Vector2(0, this.Size.Height), new Vector3(1.0f, 1.0f, 1.0f), new Vector2(this.Coordinate.X / this.Texture!.Size.X, this.Coordinate.Y / this.Texture!.Size.Y + this.Coordinate.Height/this.Texture!.Size.Y)),
+                new ColorTextureVertex2(new Vector2(0, 0), _color, new Vector2(this.Coordinate.X / this.Texture!.Size.X, this.Coordinate.Y / this.Texture!.Size.Y)),
+                new ColorTextureVertex2(new Vector2(this.Size.Width, 0), _color, new Vector2(this.Coordinate.X / this.Texture!.Size.X + this.Coordinate.Width/this.Texture!.Size.X, this.Coordinate.Y / this.Texture!.Size.Y)),
+                new ColorTextureVertex2(new Vector2(this.Size.Width,  this.Size.Height), _color, new Vector2(this.Coordinate.X / this.Texture!.Size.X + this.Coordinate.Width/this.Texture!.Size.X, this.Coordinate.Y / this.Texture!.Size.Y + this.Coordinate.Height/this.Texture!.Size.Y)),
+                new ColorTextureVertex2(new Vector2(0, this.Size.Height), _color, new Vector2(this.Coordinate.X / this.Texture!.Size.X, this.Coordinate.Y / this.Texture!.Size.Y + this.Coordinate.Height/this.Texture!.Size.Y)),
             };
 
 
@@ -88,8 +106,8 @@ namespace Character.Objects
             // Active texture
             shader.SetInt("aTexture", 1);
 
-            var indexTick = DateTime.Now.Ticks / 250000 % 32;
-            shader.SetVector2("aTexOffset", new Vector2(XI[indexTick % 8], YI[indexTick / 8]));
+            var indexTick = DateTime.Now.Ticks / 800000 % (_actionTable[_action]);
+            shader.SetVector2("aTexOffset", new Vector2(1f / 13f * indexTick, 1f / 21f * _action));
 
             // Enable Alpha
             GL.Enable(EnableCap.Blend);
