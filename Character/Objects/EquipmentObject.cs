@@ -43,8 +43,8 @@ namespace Character.Objects
 
         public long Tick { get; set; }
         public int Action { get; set; }
+        public float Light { get; set; }
 
-        private Vector3 _color = new Vector3();
         public EquipmentObject(SizeF size, RectangleF coordinate, Texture? texture)
         {
             this.Size = size;
@@ -53,19 +53,19 @@ namespace Character.Objects
 
             var random = new Random();
             var light = random.NextSingle();
-            _color = new Vector3(light, light, light);
         }
 
 
         public void OnLoad(Shader shader)
         {
+            var color = new Vector3(this.Light, this.Light, this.Light);
             // Change vertices data
             _vertices = new IVertex2[]
             {
-                new ColorTextureVertex2(new Vector2(0, 0), _color, new Vector2(this.Coordinate.X / this.Texture!.Size.X, this.Coordinate.Y / this.Texture!.Size.Y)),
-                new ColorTextureVertex2(new Vector2(this.Size.Width, 0), _color, new Vector2(this.Coordinate.X / this.Texture!.Size.X + this.Coordinate.Width/this.Texture!.Size.X, this.Coordinate.Y / this.Texture!.Size.Y)),
-                new ColorTextureVertex2(new Vector2(this.Size.Width,  this.Size.Height), _color, new Vector2(this.Coordinate.X / this.Texture!.Size.X + this.Coordinate.Width/this.Texture!.Size.X, this.Coordinate.Y / this.Texture!.Size.Y + this.Coordinate.Height/this.Texture!.Size.Y)),
-                new ColorTextureVertex2(new Vector2(0, this.Size.Height), _color, new Vector2(this.Coordinate.X / this.Texture!.Size.X, this.Coordinate.Y / this.Texture!.Size.Y + this.Coordinate.Height/this.Texture!.Size.Y)),
+                new ColorTextureVertex2(new Vector2(0, 0), color, new Vector2(this.Coordinate.X / this.Texture!.Size.X, this.Coordinate.Y / this.Texture!.Size.Y)),
+                new ColorTextureVertex2(new Vector2(this.Size.Width, 0), color, new Vector2(this.Coordinate.X / this.Texture!.Size.X + this.Coordinate.Width/this.Texture!.Size.X, this.Coordinate.Y / this.Texture!.Size.Y)),
+                new ColorTextureVertex2(new Vector2(this.Size.Width,  this.Size.Height), color, new Vector2(this.Coordinate.X / this.Texture!.Size.X + this.Coordinate.Width/this.Texture!.Size.X, this.Coordinate.Y / this.Texture!.Size.Y + this.Coordinate.Height/this.Texture!.Size.Y)),
+                new ColorTextureVertex2(new Vector2(0, this.Size.Height), color, new Vector2(this.Coordinate.X / this.Texture!.Size.X, this.Coordinate.Y / this.Texture!.Size.Y + this.Coordinate.Height/this.Texture!.Size.Y)),
             };
 
 

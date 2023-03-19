@@ -42,6 +42,7 @@ namespace Character.Objects
 
         public long Tick { get; set; }
         public int Action { get; set; }
+        public float Light { get; set; }
 
 
         private Vector3 _color = new Vector3();
@@ -52,13 +53,12 @@ namespace Character.Objects
             this.Texture = texture;
 
             var random = new Random();
-            var light = random.NextSingle();
-            _color = new Vector3(light, light, light);
         }
 
 
         public void OnLoad(Shader shader)
         {
+            _color = new Vector3(this.Light, this.Light, this.Light);
             // Change vertices data
             _vertices = new IVertex2[]
             {
