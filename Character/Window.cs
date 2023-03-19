@@ -52,7 +52,7 @@ public class Window : GLWindow
                 Location = new PointF(random.Next((int)(this.Size.X - original.Size.Width)), random.Next((int)(this.Size.Y - original.Size.Height))),
                 Light = light,
             };
-            var equipment = new EquipmentObject(original.Size, original.Coordinate, TEXTURE_2)
+            var Shield = new ShieldObject(original.Size, original.Coordinate, TEXTURE_2)
             {
                 Action = action,
                 Location = item.Location,
@@ -79,7 +79,7 @@ public class Window : GLWindow
             _renderObjects.Add(item);
             _renderObjects.Add(hair);
             _renderObjects.Add(spear);
-            //_renderObjects.Add(equipment);
+            //_renderObjects.Add(Shield);
             _renderObjects.Add(bow);
         }
 

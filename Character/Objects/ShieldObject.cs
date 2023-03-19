@@ -6,7 +6,7 @@ using System.Drawing;
 
 namespace Character.Objects
 {
-    internal class EquipmentObject : IRenderObject
+    internal class ShieldObject : IRenderObject
     {
         private IVertex2[] _vertices = new IVertex2[0];
 
@@ -45,7 +45,7 @@ namespace Character.Objects
         public int Action { get; set; }
         public float Light { get; set; }
 
-        public EquipmentObject(SizeF size, RectangleF coordinate, Texture? texture)
+        public ShieldObject(SizeF size, RectangleF coordinate, Texture? texture)
         {
             this.Size = size;
             this.Coordinate = coordinate;
