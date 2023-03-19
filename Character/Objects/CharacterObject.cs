@@ -6,7 +6,7 @@ using System.Drawing;
 
 namespace Character.Objects
 {
-    internal class RenderObject : IRenderObject
+    internal class CharacterObject : IRenderObject
     {
         private IVertex2[] _vertices = new IVertex2[0];
 
@@ -36,22 +36,24 @@ namespace Character.Objects
             8, 8, 8, 8,
             9, 9, 9, 9,
             6, 6, 6, 6,
-            13, 13, 13,
+            13, 13, 13, 13,
             6
         };
 
+        public long Tick { get; set; }
+        public int Action { get; set; }
+
 
         private Vector3 _color = new Vector3();
-        private int _action = 0;
-        public RenderObject(SizeF size, RectangleF coordinate, Texture? texture)
+        public CharacterObject(SizeF size, RectangleF coordinate, Texture? texture)
         {
             this.Size = size;
             this.Coordinate = coordinate;
             this.Texture = texture;
 
             var random = new Random();
-            _color = new Vector3(random.NextSingle(), random.NextSingle(), random.NextSingle());
-            _action = random.Next(_actionTable.Length);
+            var light = random.NextSingle();
+            _color = new Vector3(light, light, light);
         }
 
 
@@ -106,8 +108,8 @@ namespace Character.Objects
             // Active texture
             shader.SetInt("aTexture", 1);
 
-            var indexTick = DateTime.Now.Ticks / 800000 % (_actionTable[_action]);
-            shader.SetVector2("aTexOffset", new Vector2(1f / 13f * indexTick, 1f / 21f * _action));
+            var indexTick = this.Tick % (_actionTable[this.Action]);
+            shader.SetVector2("aTexOffset", new Vector2(1f / 13f * indexTick, 1f / 21f * this.Action));
 
             // Enable Alpha
             GL.Enable(EnableCap.Blend);

@@ -10,6 +10,7 @@
     <None Remove="Resources\Bg.png" />
     <None Remove="Resources\Character.png" />
     <None Remove="Resources\Explosion.png" />
+    <None Remove="Resources\Shield.png" />
     <None Remove="Resources\Sprite.png" />
     <None Remove="Shaders\Character.frag" />
     <None Remove="Shaders\Character.vert" />
@@ -25,6 +26,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\Explosion.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Shield.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\Sprite.png">

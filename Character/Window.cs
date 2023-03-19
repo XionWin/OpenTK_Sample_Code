@@ -13,19 +13,18 @@ public class Window : GLWindow
 
     private readonly static Texture TEXTURE_0 = new Texture(TextureUnit.Texture0, TextureMinFilter.Nearest).With(x => x.Load("Resources/Bg.png"));
     private readonly static Texture TEXTURE_1 = new Texture(TextureUnit.Texture1, TextureMinFilter.Nearest).With(x => x.Load("Resources/Character.png"));
+    private readonly static Texture TEXTURE_2 = new Texture(TextureUnit.Texture2, TextureMinFilter.Nearest).With(x => x.Load("Resources/Shield.png"));
     public Window() : base("Character", 288 * ZOOM_FACTOR, 200 * ZOOM_FACTOR)
     {
-        this._renderObjects = new IRenderObject[] {
-            new SceneObject(new SizeF(288 * ZOOM_FACTOR, 200 * ZOOM_FACTOR), new RectangleF(0, 0, 288, 200), TEXTURE_0),
-         };
+        this._renderObjects.Add(new SceneObject(new SizeF(288 * ZOOM_FACTOR, 200 * ZOOM_FACTOR), new RectangleF(0, 0, 288, 200), TEXTURE_0));
     }
 
-    private static RenderObject[] _renderObjectSamples = new[]
+    private static CharacterObject[] _renderObjectSamples = new[]
     {
-        new RenderObject(new SizeF(64 * ZOOM_FACTOR, 64 * ZOOM_FACTOR), new RectangleF(0, 0, 64, 64), TEXTURE_1),
+        new CharacterObject(new SizeF(64 * ZOOM_FACTOR, 64 * ZOOM_FACTOR), new RectangleF(0, 0, 64, 64), TEXTURE_1),
     };
 
-    private IEnumerable<IRenderObject> _renderObjects;
+    private List<IRenderObject> _renderObjects = new List<IRenderObject>();
 
     private int _uniformViewPort;
 
@@ -40,11 +39,19 @@ public class Window : GLWindow
         {
             var index = random.NextInt64(len);
             var original = _renderObjectSamples[index];
-            var item = new RenderObject(original.Size, original.Coordinate, original.Texture)
+            var action = random.Next(21);
+            var item = new CharacterObject(original.Size, original.Coordinate, original.Texture)
             {
+                Action = action,
                 Location = new PointF(random.Next((int)(this.Size.X - original.Size.Width)), random.Next((int)(this.Size.Y - original.Size.Height))),
             };
-            _renderObjects = _renderObjects.Append(item);
+            var equipment = new EquipmentObject(original.Size, original.Coordinate, TEXTURE_2)
+            {
+                Action = action,
+                Location = new PointF(item.Location.X - 0, item.Location.Y + 0),
+            };
+            _renderObjects.Add(item);
+            _renderObjects.Add(equipment);
         }
 
         GL.ClearColor(Color.FromArgb(96, 96, 168));
@@ -63,8 +70,10 @@ public class Window : GLWindow
 
         GL.Clear(ClearBufferMask.ColorBufferBit);
 
+        var tick = DateTime.Now.Ticks / 800000;
         foreach (var renderObject in _renderObjects)
         {
+            renderObject.Tick = tick;
             renderObject.OnRenderFrame(this.Shader);
         }
 
