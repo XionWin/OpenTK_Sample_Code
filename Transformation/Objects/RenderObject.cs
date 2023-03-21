@@ -77,13 +77,13 @@ namespace MultipleObjects.Objects
             transform = transform * Matrix4.CreateRotationZ(MathHelper.DegreesToRadians(DateTime.Now.Ticks / 100000 % 360));
             Matrix4.CreateTranslation(this.Location.X, this.Location.Y, 0f, out var t);
             transform = transform * t;
-            shader.SetMatrix4("aTransform", transform);
+            shader.UniformMatrix4("aTransform", transform);
 
 
-            shader.SetVector2("aCenter", new Vector2(this.Size.Width / 2f, this.Size.Height / 2f));
+            shader.Uniform2("aCenter", new Vector2(this.Size.Width / 2f, this.Size.Height / 2f));
 
             // Active texture
-            shader.SetInt("aTexture", 1);
+            shader.Uniform1("aTexture", 1);
 
             // Enable Alpha
             GL.Enable(EnableCap.Blend);

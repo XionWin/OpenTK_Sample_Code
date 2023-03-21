@@ -31,17 +31,17 @@ public class Shader
         GL.UseProgram(ProgramHandle);
     }
 
-    public void SetInt(string locationName, int data)
+    public void Uniform1(string locationName, int data)
     {
         GL.UseProgram(ProgramHandle);
         GL.Uniform1(this.UniformLocations[locationName], data);
     }
-    public void SetVector2(string locationName, Vector2 data)
+    public void Uniform2(string locationName, Vector2 data)
     {
         GL.UseProgram(ProgramHandle);
-        GL.Uniform2(this.UniformLocations[locationName], data.X, data.Y);
+        GL.Uniform2(this.UniformLocations[locationName], data);
     }
-    public void SetMatrix4(string locationName, Matrix4 data)
+    public void UniformMatrix4(string locationName, Matrix4 data)
     {
         GL.UseProgram(ProgramHandle);
         GL.UniformMatrix4(this.UniformLocations[locationName], true, ref data);

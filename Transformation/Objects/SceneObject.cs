@@ -74,13 +74,13 @@ namespace MultipleObjects.Objects
             // Bind the VAO
             GL.BindVertexArray(_vao);
             var transform = Matrix4.Identity;
-            shader.SetMatrix4("aTransform", transform);
+            shader.UniformMatrix4("aTransform", transform);
 
 
-            shader.SetVector2("aCenter", new Vector2(this.Size.Width / 2f, this.Size.Height / 2f));
+            shader.Uniform2("aCenter", new Vector2(this.Size.Width / 2f, this.Size.Height / 2f));
 
             // Active texture
-            shader.SetInt("aTexture", 0);
+            shader.Uniform1("aTexture", 0);
 
             // Enable Alpha
             GL.Enable(EnableCap.Blend);

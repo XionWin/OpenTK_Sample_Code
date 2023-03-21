@@ -4,9 +4,9 @@ using OpenTK.Graphics.OpenGL4;
 using OpenTK.Mathematics;
 using System.Drawing;
 
-namespace Character.Objects
+namespace Shapes.Objects
 {
-    internal class CharacterObject : IRenderObject
+    internal class ExplosionObject : IRenderObject
     {
         private IVertex2[] _vertices = new IVertex2[0];
 
@@ -40,25 +40,26 @@ namespace Character.Objects
             6
         };
 
+
         public long Tick { get; set; }
         public int Action { get; set; }
         public float Light { get; set; }
 
 
-        private Vector3 _color = new Vector3();
-        public CharacterObject(SizeF size, RectangleF coordinate, Texture? texture)
+        private Vector3 _color;
+        public ExplosionObject(SizeF size, RectangleF coordinate, Texture? texture)
         {
             this.Size = size;
             this.Coordinate = coordinate;
             this.Texture = texture;
 
             var random = new Random();
+            _color = new Vector3(random.NextSingle(), random.NextSingle(), random.NextSingle());
         }
 
 
         public void OnLoad(Shader shader)
         {
-            _color = new Vector3(this.Light, this.Light, this.Light);
             // Change vertices data
             _vertices = new IVertex2[]
             {
@@ -106,10 +107,10 @@ namespace Character.Objects
             shader.Uniform2("aCenter", new Vector2(this.Size.Width / 2f, this.Size.Height / 2f));
 
             // Active texture
-            shader.Uniform1("aTexture", 1);
+            shader.Uniform1("aTexture", 6);
 
-            var indexTick = this.Tick % (_actionTable[this.Action]);
-            shader.Uniform2("aTexOffset", new Vector2(1f / 13f * indexTick, 1f / 21f * this.Action));
+            var indexTick = this.Tick % 32;
+            shader.Uniform2("aTexOffset", new Vector2(1f / 8f * (indexTick % 8), 1f / 4f * (indexTick / 8)));
 
             // Enable Alpha
             GL.Enable(EnableCap.Blend);

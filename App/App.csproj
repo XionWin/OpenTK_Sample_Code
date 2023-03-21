@@ -17,6 +17,7 @@
 	  <ProjectReference Include="..\MultipleObjects\MultipleObjects.csproj" />
 	  <ProjectReference Include="..\Transformation\Transformation.csproj" />
 	  <ProjectReference Include="..\Character\Character.csproj" />
+	  <ProjectReference Include="..\Shapes\Shapes.csproj" />
   </ItemGroup>
 
 </Project>

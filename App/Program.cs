@@ -5,7 +5,7 @@ internal class Program
     {
 
         // To create a new window, create a class that extends GameWindow, then call Run() on it.
-        using (var window = new Character.Window())
+        using (var window = new Shapes.Window())
             window.Run();
     }
 }

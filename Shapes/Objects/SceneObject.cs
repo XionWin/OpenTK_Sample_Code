@@ -1,12 +1,12 @@
 ﻿using Common;
 using Extension;
 using OpenTK.Graphics.OpenGL4;
-using OpenTK.Mathematics;
 using System.Drawing;
+using OpenTK.Mathematics;
 
-namespace Character.Objects
+namespace Shapes.Objects
 {
-    internal class CharacterObject : IRenderObject
+    internal class SceneObject : IRenderObject
     {
         private IVertex2[] _vertices = new IVertex2[0];
 
@@ -22,101 +22,77 @@ namespace Character.Objects
 
         private int _ebo;
 
-
         public PointF Location { get; set; }
         public SizeF Size { get; set; }
 
         public RectangleF Coordinate { get; set; }
         public Texture? Texture { get; set; }
 
-
-        private int[] _actionTable = new int[]
-        {
-            7, 7, 7, 7,
-            8, 8, 8, 8,
-            9, 9, 9, 9,
-            6, 6, 6, 6,
-            13, 13, 13, 13,
-            6
-        };
-
         public long Tick { get; set; }
         public int Action { get; set; }
         public float Light { get; set; }
 
-
-        private Vector3 _color = new Vector3();
-        public CharacterObject(SizeF size, RectangleF coordinate, Texture? texture)
+        public SceneObject(SizeF size, RectangleF coordinate, Texture? texture)
         {
             this.Size = size;
             this.Coordinate = coordinate;
             this.Texture = texture;
-
-            var random = new Random();
         }
-
 
         public void OnLoad(Shader shader)
         {
-            _color = new Vector3(this.Light, this.Light, this.Light);
-            // Change vertices data
-            _vertices = new IVertex2[]
-            {
-                new ColorTextureVertex2(new Vector2(0, 0), _color, new Vector2(this.Coordinate.X / this.Texture!.Size.X, this.Coordinate.Y / this.Texture!.Size.Y)),
-                new ColorTextureVertex2(new Vector2(this.Size.Width, 0), _color, new Vector2(this.Coordinate.X / this.Texture!.Size.X + this.Coordinate.Width/this.Texture!.Size.X, this.Coordinate.Y / this.Texture!.Size.Y)),
-                new ColorTextureVertex2(new Vector2(this.Size.Width,  this.Size.Height), _color, new Vector2(this.Coordinate.X / this.Texture!.Size.X + this.Coordinate.Width/this.Texture!.Size.X, this.Coordinate.Y / this.Texture!.Size.Y + this.Coordinate.Height/this.Texture!.Size.Y)),
-                new ColorTextureVertex2(new Vector2(0, this.Size.Height), _color, new Vector2(this.Coordinate.X / this.Texture!.Size.X, this.Coordinate.Y / this.Texture!.Size.Y + this.Coordinate.Height/this.Texture!.Size.Y)),
-            };
-
-
             _vao = GL.GenVertexArray();
             _vbo = GL.GenBuffer();
             _ebo = GL.GenBuffer();
 
             GL.BindVertexArray(_vao); 
 
+            // Change vertices data
+            _vertices = new IVertex2[]
+            {
+                new ColorTextureVertex2(new Vector2(0, 0), new Vector3(1.0f, 1.0f, 1.0f), new Vector2(this.Coordinate.X / this.Texture!.Size.X, this.Coordinate.Y / this.Texture!.Size.Y)),
+                new ColorTextureVertex2(new Vector2(this.Size.Width, 0), new Vector3(1.0f, 1.0f, 1.0f), new Vector2(this.Coordinate.X / this.Texture!.Size.X + this.Coordinate.Width/this.Texture!.Size.X, this.Coordinate.Y / this.Texture!.Size.Y)),
+                new ColorTextureVertex2(new Vector2(this.Size.Width,  this.Size.Height), new Vector3(1.0f, 1.0f, 1.0f), new Vector2(this.Coordinate.X / this.Texture!.Size.X + this.Coordinate.Width/this.Texture!.Size.X, this.Coordinate.Y / this.Texture!.Size.Y + this.Coordinate.Height/this.Texture!.Size.Y)),
+                new ColorTextureVertex2(new Vector2(0, this.Size.Height), new Vector3(1.0f, 1.0f, 1.0f), new Vector2(this.Coordinate.X / this.Texture!.Size.X, this.Coordinate.Y / this.Texture!.Size.Y + this.Coordinate.Height/this.Texture!.Size.Y)),
+            };
             // bind vbo and set data for vbo
             GL.BindBuffer(BufferTarget.ArrayBuffer, _vbo);
             var vertices = _vertices.GetRaw();
             GL.BufferData(BufferTarget.ArrayBuffer, vertices.Length * sizeof(float), vertices, BufferUsageHint.StaticDraw);
+
+
+
+            //var vertices = _vertices.GetRaw();
+            //GL.BufferData(BufferTarget.ArrayBuffer, vertices.Length * sizeof(float), vertices, BufferUsageHint.StaticDraw);
 
             // bind ebo and set data for ebo
             GL.BindBuffer(BufferTarget.ElementArrayBuffer, _ebo);
             GL.BufferData(BufferTarget.ElementArrayBuffer, _indices.Length * sizeof(uint), _indices, BufferUsageHint.StaticDraw);
 
             shader.EnableAttribs(ColorTextureVertex2.AttribLocations);
-
         }
 
-        private static float[] XI = {0f, 0.125f, 0.25f, 0.375f, 0.5f, 0.625f, 0.75f, 0.875f };
-        private static float[] YI = { 0f, 0.25f, 0.5f, 0.75f };
 
         public void OnRenderFrame(Shader shader)
         {
             // Bind the VAO
             GL.BindVertexArray(_vao);
-
             var transform = Matrix4.Identity;
-            //transform = transform * Matrix4.CreateRotationZ(MathHelper.DegreesToRadians(DateTime.Now.Ticks / 100000 % 360));
-            Matrix4.CreateTranslation(this.Location.X, this.Location.Y, 0f, out var t);
-            transform = transform * t;
             shader.UniformMatrix4("aTransform", transform);
 
 
             shader.Uniform2("aCenter", new Vector2(this.Size.Width / 2f, this.Size.Height / 2f));
 
             // Active texture
-            shader.Uniform1("aTexture", 1);
+            shader.Uniform1("aTexture", 0);
 
-            var indexTick = this.Tick % (_actionTable[this.Action]);
-            shader.Uniform2("aTexOffset", new Vector2(1f / 13f * indexTick, 1f / 21f * this.Action));
+            shader.Uniform2("aTexOffset", new Vector2(0, 0));
 
             // Enable Alpha
             GL.Enable(EnableCap.Blend);
-            GL.BlendFunc(BlendingFactor.SrcAlpha, BlendingFactor.OneMinusSrcAlpha);
+            GL.BlendFunc(BlendingFactor.DstColor, BlendingFactor.Zero);
 
             GL.DrawElements(PrimitiveType.Triangles, _indices.Length, DrawElementsType.UnsignedInt, 0);
-
         }
 
         public void OnUnload()

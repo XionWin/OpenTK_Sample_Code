@@ -63,8 +63,8 @@ public class Window : GLWindow
         _texture = new Texture(TextureUnit.Texture0).With(x => x.Load("Resources/container.png"));
         _texture2 = new Texture(TextureUnit.Texture1).With(x => x.Load("Resources/container2.png"));
 
-        this.Shader.SetInt("texture0", 0);
-        this.Shader.SetInt("texture1", 1);
+        this.Shader.Uniform1("texture0", 0);
+        this.Shader.Uniform1("texture1", 1);
 
         this._uniformViewPort = GL.GetUniformLocation(this.Shader.ProgramHandle, "aViewport");
     }

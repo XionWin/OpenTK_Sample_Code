@@ -52,7 +52,7 @@ namespace MultipleObjects.Objects
         {
             // Bind the VAO
             GL.BindVertexArray(_vao);
-            shader.SetInt("aTexture", 1);
+            shader.Uniform1("aTexture", 1);
 
             // Enable Alpha
             GL.Enable(EnableCap.Blend);

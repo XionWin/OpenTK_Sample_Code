@@ -69,7 +69,7 @@ namespace MultipleObjects.Objects
             //GL.BufferData(BufferTarget.ArrayBuffer, vertices.Length * sizeof(float), vertices, BufferUsageHint.StaticDraw);
 
             // Active texture
-            shader.SetInt("aTexture", 0);
+            shader.Uniform1("aTexture", 0);
 
             // Enable Alpha
             GL.Enable(EnableCap.Blend);

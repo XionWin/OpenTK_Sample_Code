@@ -4,9 +4,9 @@ using OpenTK.Graphics.OpenGL4;
 using OpenTK.Mathematics;
 using System.Drawing;
 
-namespace Character.Objects
+namespace Shapes.Objects
 {
-    internal class CharacterObject : IRenderObject
+    internal class HairObject : IRenderObject
     {
         private IVertex2[] _vertices = new IVertex2[0];
 
@@ -40,25 +40,26 @@ namespace Character.Objects
             6
         };
 
+
         public long Tick { get; set; }
         public int Action { get; set; }
         public float Light { get; set; }
 
-
-        private Vector3 _color = new Vector3();
-        public CharacterObject(SizeF size, RectangleF coordinate, Texture? texture)
+        private Vector3 _color;
+        public HairObject(SizeF size, RectangleF coordinate, Texture? texture)
         {
             this.Size = size;
             this.Coordinate = coordinate;
             this.Texture = texture;
 
             var random = new Random();
+            var light = random.NextSingle();
+            _color = new Vector3(random.NextSingle(), random.NextSingle(), random.NextSingle());
         }
 
 
         public void OnLoad(Shader shader)
         {
-            _color = new Vector3(this.Light, this.Light, this.Light);
             // Change vertices data
             _vertices = new IVertex2[]
             {
@@ -88,9 +89,6 @@ namespace Character.Objects
 
         }
 
-        private static float[] XI = {0f, 0.125f, 0.25f, 0.375f, 0.5f, 0.625f, 0.75f, 0.875f };
-        private static float[] YI = { 0f, 0.25f, 0.5f, 0.75f };
-
         public void OnRenderFrame(Shader shader)
         {
             // Bind the VAO
@@ -106,7 +104,7 @@ namespace Character.Objects
             shader.Uniform2("aCenter", new Vector2(this.Size.Width / 2f, this.Size.Height / 2f));
 
             // Active texture
-            shader.Uniform1("aTexture", 1);
+            shader.Uniform1("aTexture", 3);
 
             var indexTick = this.Tick % (_actionTable[this.Action]);
             shader.Uniform2("aTexOffset", new Vector2(1f / 13f * indexTick, 1f / 21f * this.Action));

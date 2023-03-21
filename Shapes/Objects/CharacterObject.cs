@@ -4,7 +4,7 @@ using OpenTK.Graphics.OpenGL4;
 using OpenTK.Mathematics;
 using System.Drawing;
 
-namespace Character.Objects
+namespace Shapes.Objects
 {
     internal class CharacterObject : IRenderObject
     {
