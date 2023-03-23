@@ -53,7 +53,7 @@ public class Window : GLWindow
         var random = new Random();
 
         var len = _renderObjectSamples.Length;
-        for (int i = 0; i < 1000; i++)
+        for (int i = 0; i < 50; i++)
         {
             var index = random.NextInt64(len);
             var original = _renderObjectSamples[index];

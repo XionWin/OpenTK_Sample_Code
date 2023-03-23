@@ -6,7 +6,7 @@ using System.Drawing;
 
 namespace Shapes.Objects
 {
-    internal class ShieldObject : IRenderObject
+    internal class ShapeObject : IRenderObject
     {
         private IVertex2[] _vertices = new IVertex2[0];
 
@@ -30,22 +30,7 @@ namespace Shapes.Objects
         public Texture? Texture { get; set; }
 
 
-        private int[] _actionTable = new int[]
-        {
-            7, 7, 7, 7,
-            8, 8, 8, 8,
-            9, 9, 9, 9,
-            6, 6, 6, 6,
-            13, 13, 13, 13,
-            6
-        };
-
-
-        public long Tick { get; set; }
-        public int Action { get; set; }
-        public float Light { get; set; }
-
-        public ShieldObject(SizeF size, RectangleF coordinate, Texture? texture)
+        public ShapeObject(SizeF size, RectangleF coordinate, Texture? texture)
         {
             this.Size = size;
             this.Coordinate = coordinate;
@@ -58,7 +43,7 @@ namespace Shapes.Objects
 
         public void OnLoad(Shader shader)
         {
-            var color = new Vector3(this.Light, this.Light, this.Light);
+            var color = new Vector3(1, 0, 0);
             // Change vertices data
             _vertices = new IVertex2[]
             {
@@ -97,7 +82,9 @@ namespace Shapes.Objects
             GL.BindVertexArray(_vao);
 
             var transform = Matrix4.Identity;
-            //transform = transform * Matrix4.CreateRotationZ(MathHelper.DegreesToRadians(DateTime.Now.Ticks / 100000 % 360));
+            transform = Matrix4.CreateScale(288f / 200, 1, 1f);
+            transform = transform * Matrix4.CreateRotationZ(MathHelper.DegreesToRadians(DateTime.Now.Ticks / 100000 % 360));
+            transform = transform * Matrix4.CreateScale(200f / 288, 1, 1f);
             Matrix4.CreateTranslation(this.Location.X, this.Location.Y, 0f, out var t);
             transform = transform * t;
             shader.UniformMatrix4("aTransform", transform);
@@ -106,10 +93,9 @@ namespace Shapes.Objects
             shader.Uniform2("aCenter", new Vector2(this.Size.Width / 2f, this.Size.Height / 2f));
 
             // Active texture
-            shader.Uniform1("aTexture", 2);
+            shader.Uniform1("aTexture", 4);
 
-            var indexTick = this.Tick % (_actionTable[this.Action]);
-            shader.Uniform2("aTexOffset", new Vector2(1f / 13f * indexTick, 1f / 21f * this.Action));
+            shader.Uniform2("aTexOffset", new Vector2(0, 0));
 
             // Enable Alpha
             GL.Enable(EnableCap.Blend);

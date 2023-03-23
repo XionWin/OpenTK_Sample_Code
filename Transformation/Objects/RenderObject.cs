@@ -74,7 +74,9 @@ namespace MultipleObjects.Objects
             GL.BindVertexArray(_vao);
 
             var transform = Matrix4.Identity;
+            transform = Matrix4.CreateScale(288f / 200, 1, 1f);
             transform = transform * Matrix4.CreateRotationZ(MathHelper.DegreesToRadians(DateTime.Now.Ticks / 100000 % 360));
+            transform = transform * Matrix4.CreateScale(200f / 288, 1, 1f);
             Matrix4.CreateTranslation(this.Location.X, this.Location.Y, 0f, out var t);
             transform = transform * t;
             shader.UniformMatrix4("aTransform", transform);
