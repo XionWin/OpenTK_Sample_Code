@@ -29,7 +29,9 @@ public class Window : GLWindow
         base.OnLoad();
 
         _renderObjects.Add(new ShapeObject(new SizeF(200, 200), new RectangleF(0, 0, 288, 200), TEXTURE_0) { Location = new PointF(50, 50) });
-        _renderObjects.Add(new ShapeObject(new SizeF(1, 1), new RectangleF(0, 0, 288, 200), TEXTURE_0) { Location = new PointF(300, 300)});
+        _renderObjects.Add(new ShapeObject(new SizeF(100, 100), new RectangleF(0, 0, 288, 200), TEXTURE_0) { Location = new PointF(100, 100) });
+        _renderObjects.Add(new ShapeObject(new SizeF(50, 50), new RectangleF(0, 0, 288, 200), TEXTURE_0) { Location = new PointF(125, 125) });
+        _renderObjects.Add(new ShapeObject(new SizeF(10, 10), new RectangleF(0, 0, 288, 200), TEXTURE_0) { Location = new PointF(145, 145) });
 
 
         GL.ClearColor(Color.FromArgb(96, 96, 168));

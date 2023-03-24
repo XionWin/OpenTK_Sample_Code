@@ -93,7 +93,7 @@ namespace Shapes.Objects
             shader.Uniform2("aCenter", new Vector2(this.Size.Width / 2f, this.Size.Height / 2f));
 
             // Active texture
-            shader.Uniform1("aTexture", 4);
+            shader.Uniform1("aTexture", 0);
 
             shader.Uniform2("aTexOffset", new Vector2(0, 0));
 
