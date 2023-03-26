@@ -41,6 +41,11 @@ public class Shader
         GL.UseProgram(ProgramHandle);
         GL.Uniform2(this.UniformLocations[locationName], data);
     }
+    public void UniformMatrix3(string locationName, Matrix3 data)
+    {
+        GL.UseProgram(ProgramHandle);
+        GL.UniformMatrix3(this.UniformLocations[locationName], true, ref data);
+    }
     public void UniformMatrix4(string locationName, Matrix4 data)
     {
         GL.UseProgram(ProgramHandle);

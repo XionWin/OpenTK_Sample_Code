@@ -86,6 +86,9 @@ namespace MultipleObjects.Objects
             GL.Enable(EnableCap.Blend);
             GL.BlendFunc(BlendingFactor.DstColor, BlendingFactor.Zero);
 
+
+            GL.PolygonMode(MaterialFace.FrontAndBack, PolygonMode.Fill);
+
             GL.DrawElements(PrimitiveType.Triangles, _indices.Length, DrawElementsType.UnsignedInt, 0);
         }
 

@@ -65,7 +65,6 @@ namespace MultipleObjects.Objects
             GL.BufferData(BufferTarget.ElementArrayBuffer, _indices.Length * sizeof(uint), _indices, BufferUsageHint.StaticDraw);
 
             shader.EnableAttribs(ColorTextureVertex2.AttribLocations);
-
         }
 
         public void OnRenderFrame(Shader shader)

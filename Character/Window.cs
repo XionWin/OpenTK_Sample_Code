@@ -45,7 +45,7 @@ public class Window : GLWindow
             var index = random.NextInt64(len);
             var original = _renderObjectSamples[index];
             var action = random.Next(21);
-            var light = random.NextSingle();
+            var light = random.NextSingle() * 0.4f + 0.6f;
             var item = new CharacterObject(original.Size, original.Coordinate, original.Texture)
             {
                 Action = action,

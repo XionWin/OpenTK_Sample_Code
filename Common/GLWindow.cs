@@ -1,4 +1,5 @@
 ﻿using Extension;
+using OpenTK;
 using OpenTK.Mathematics;
 using OpenTK.Windowing.Common;
 using OpenTK.Windowing.Desktop;
@@ -16,7 +17,7 @@ public class GLWindow : GameWindow
             new GameWindowSettings()
             {
                 UpdateFrequency = 30,
-                RenderFrequency = 60
+                RenderFrequency = 120
             },
             new NativeWindowSettings()
             {

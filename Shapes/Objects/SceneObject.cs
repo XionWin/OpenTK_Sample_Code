@@ -77,8 +77,8 @@ namespace Shapes.Objects
         {
             // Bind the VAO
             GL.BindVertexArray(_vao);
-            var transform = Matrix4.Identity;
-            shader.UniformMatrix4("aTransform", transform);
+            var transform = Matrix3.Identity;
+            shader.UniformMatrix3("aTransform", transform);
 
 
             shader.Uniform2("aCenter", new Vector2(this.Size.Width / 2f, this.Size.Height / 2f));
@@ -87,6 +87,7 @@ namespace Shapes.Objects
             shader.Uniform1("aTexture", 0);
 
             shader.Uniform2("aTexOffset", new Vector2(0, 0));
+            shader.Uniform1("aMode", 1);
 
             // Enable Alpha
             GL.Enable(EnableCap.Blend);

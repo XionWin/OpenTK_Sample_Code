@@ -11,7 +11,9 @@ uniform vec2 aCenter;
 
 uniform vec3 aViewport; 
 
-uniform mat4 aTransform;  
+uniform mat3 aTransform;
+
+uniform int aPointSize;
 
 out vec3 color;
 out vec2 texCoord;
@@ -19,17 +21,28 @@ out vec2 texCoord;
 void main(void)
 {
 
-	mat4 m1 = mat4(aViewport.x / aViewport.y, 0, 0, 0,	0, 1, 0, 0,		0, 0, 1, 0,		0, 0, 0, 1);
+	mat3 m1 = mat3(
+		aViewport.x / aViewport.y, 0, 0,
+		0, 1, 0,
+		0, 0, 1
+		);
 	
-	mat4 transform = m1 * aTransform;
+	mat3 transform = m1 * aTransform;
 
-	mat4 m2 = mat4(aViewport.y / aViewport.x, 0, 0, 0,	0, 1, 0, 0,		0, 0, 1, 0,		0, 0, 0, 1);
+	mat3 m2 = mat3(
+		aViewport.y / aViewport.x, 0, 0,
+		0, 1, 0,
+		0, 0, 1
+		);
 	
-	mat4 transform2 = transform * m2;
-	transform2[0][3] = (aTransform[0][3] - aViewport.x / 2.0 + aCenter.x) / aViewport.x * 2.0;
-	transform2[1][3] = 0.0 - (aTransform[1][3]- aViewport.y / 2.0 + aCenter.y) / aViewport.y * 2.0;
-    gl_Position = vec4((aPos.x - aCenter.x) / aViewport.x * 2.0, 0.0 - (aPos.y - aCenter.y) / aViewport.y * 2.0, 0.0, 1.0) * transform2;
+	mat3 transform2 = transform * m2;
+	transform2[0][2] = (aTransform[0][2] - aViewport.x / 2.0 + aCenter.x) / aViewport.x * 2.0;
+	transform2[1][2] = 0.0 - (aTransform[1][2] - aViewport.y / 2.0 + aCenter.y) / aViewport.y * 2.0;
+
+	vec3 r2d = vec3((aPos.x - aCenter.x) / aViewport.x * 2.0, - (aPos.y - aCenter.y) / aViewport.y * 2.0, 1.0) * transform2;
+	gl_Position = vec4(r2d, 1.0);
 	
 	color = aColor;
 	texCoord = aTexCoord;
+	gl_PointSize  = aPointSize;
 }

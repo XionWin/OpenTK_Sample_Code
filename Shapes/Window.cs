@@ -7,6 +7,7 @@ using OpenTK.Windowing.GraphicsLibraryFramework;
 using System;
 using System.Drawing;
 using static System.Collections.Specialized.BitVector32;
+using System.Diagnostics;
 
 namespace Shapes;
 public class Window : GLWindow
@@ -28,10 +29,17 @@ public class Window : GLWindow
     {
         base.OnLoad();
 
-        _renderObjects.Add(new ShapeObject(new SizeF(200, 200), new RectangleF(0, 0, 288, 200), TEXTURE_0) { Location = new PointF(50, 50) });
-        _renderObjects.Add(new ShapeObject(new SizeF(100, 100), new RectangleF(0, 0, 288, 200), TEXTURE_0) { Location = new PointF(100, 100) });
-        _renderObjects.Add(new ShapeObject(new SizeF(50, 50), new RectangleF(0, 0, 288, 200), TEXTURE_0) { Location = new PointF(125, 125) });
-        _renderObjects.Add(new ShapeObject(new SizeF(10, 10), new RectangleF(0, 0, 288, 200), TEXTURE_0) { Location = new PointF(145, 145) });
+        Random random = new Random();
+        for (int i = 0; i < 100; i++)
+        {
+            var p1 = new Point(random.Next(this.Size.X), random.Next(this.Size.Y));
+            var p2 = new Point(random.Next(this.Size.X), random.Next(this.Size.Y));
+
+
+            _renderObjects.Add(new PointObject(p1, new OpenTK.Mathematics.Vector3(1, 1, 1)) { Size = 20 });
+            _renderObjects.Add(new PointObject(p2, new OpenTK.Mathematics.Vector3(1, 1, 1)) { Size = 20 });
+            _renderObjects.Add(new LineObject(p1, p2 , new OpenTK.Mathematics.Vector3(1, 1, 1)));
+        }
 
 
         GL.ClearColor(Color.FromArgb(96, 96, 168));
@@ -42,18 +50,42 @@ public class Window : GLWindow
         }
 
         this._uniformViewPort = GL.GetUniformLocation(this.Shader.ProgramHandle, "aViewport");
+
+        watch.Start();
     }
 
+    int fpsCounter = 0;
+    Stopwatch watch = new Stopwatch();
     protected override void OnRenderFrame(FrameEventArgs args)
     {
         base.OnRenderFrame(args);
 
         GL.Clear(ClearBufferMask.ColorBufferBit);
 
-        var tick = DateTime.Now.Ticks / 1200000;
+        Random random = new Random();
         foreach (var renderObject in _renderObjects)
         {
+            if (renderObject is PointObject pointObject)
+            {
+                pointObject.Location = new Point(random.Next(this.Size.X), random.Next(this.Size.Y));
+            }
+            if (renderObject is LineObject lineObject)
+            {
+                var p1 = new Point(random.Next(this.Size.X), random.Next(this.Size.Y));
+                var p2 = new Point(random.Next(this.Size.X), random.Next(this.Size.Y));
+                lineObject.Start = p1;
+                lineObject.End = p2;
+            }
             renderObject.OnRenderFrame(this.Shader);
+        }
+
+        fpsCounter++;
+        if (fpsCounter == 60)
+        {
+            
+            System.Console.WriteLine((float)fpsCounter / watch.ElapsedMilliseconds * 1000);
+            fpsCounter = 0;
+            watch.Restart();
         }
 
         SwapBuffers();
