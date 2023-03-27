@@ -12,7 +12,6 @@ namespace Shapes.Objects
 {
     internal abstract class RenderObject : IRenderObject
     {
-
         public int VAO { get; set; }
 
         public int VBO { get; set; }
