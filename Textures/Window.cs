@@ -14,9 +14,9 @@ public class Window : GLWindow
 
     private readonly IVertex2[] _vertices = new IVertex2[]
     {
-        new TextureVertex2(new Vector2(620f, 100f), new Vector2(1.0f, 0.0f)),
-        new TextureVertex2(new Vector2(620f, 620f), new Vector2(1.0f, 1.0f)),
-        new TextureVertex2(new Vector2(100f, 620f), new Vector2(0.0f, 1.0f)),
+        new TextureVertex2(new Vector2(620f, 100f), new Vector2(1f, 0.0f)),
+        new TextureVertex2(new Vector2(620f, 620f), new Vector2(1f, 1f)),
+        new TextureVertex2(new Vector2(100f, 620f), new Vector2(0.0f, 1f)),
         new TextureVertex2(new Vector2(100f, 100f), new Vector2(0.0f, 0.0f)),
     };
 
@@ -60,11 +60,18 @@ public class Window : GLWindow
 
         this.Shader.EnableAttribs(TextureVertex2.AttribLocations);
 
-        _texture = new Texture(TextureUnit.Texture0).With(x => x.Load("Resources/container.png"));
-        _texture2 = new Texture(TextureUnit.Texture1).With(x => x.Load("Resources/container2.png"));
+        var file = new System.IO.FileInfo(@"Resources/123.raw");
+        byte[] data = new byte[file.Length];
+        using (var stream = new System.IO.FileStream(@"Resources/123.raw", FileMode.Open, FileAccess.Read))
+        {
+            stream.Read(data, 0, data.Length);
+        }
+        _texture = new Texture(TextureUnit.Texture0, TextureMinFilter.Nearest).With(x => x.LoadRaw(data, 512, 512));
+        //_texture = new Texture(TextureUnit.Texture0).With(x => x.Load("Resources/container.png"));
+        //_texture2 = new Texture(TextureUnit.Texture1).With(x => x.Load("Resources/container2.png"));
 
         this.Shader.Uniform1("texture0", 0);
-        this.Shader.Uniform1("texture1", 1);
+        //this.Shader.Uniform1("texture1", 1);
 
         this._uniformViewPort = GL.GetUniformLocation(this.Shader.ProgramHandle, "aViewport");
     }
@@ -73,17 +80,24 @@ public class Window : GLWindow
     {
         base.OnRenderFrame(args);
 
-        GL.Clear(ClearBufferMask.ColorBufferBit);
+        GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
 
+        GL.Viewport(0, 0, this.Size.X, this.Size.Y);
+        GL.Disable(EnableCap.DepthTest);
         // Bind the VAO
         GL.BindVertexArray(_vao);
 
         // Enable Alpha
         GL.Enable(EnableCap.Blend);
         GL.BlendFunc(BlendingFactor.SrcAlpha, BlendingFactor.OneMinusSrcAlpha);
+        //GL.Enable(EnableCap.CullFace);
+        //GL.CullFace(CullFaceMode.FrontAndBack);
 
+        // Active texture
+        this.Shader.Uniform1("texture0", 0);
         GL.DrawElements(PrimitiveType.Triangles, _indices.Length, DrawElementsType.UnsignedInt, 0);
 
+        GL.Enable(EnableCap.DepthTest);
         SwapBuffers();
     }
 
